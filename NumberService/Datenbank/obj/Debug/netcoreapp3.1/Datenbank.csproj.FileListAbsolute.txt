@@ -1,0 +1,12 @@
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\bin\Debug\netcoreapp3.1\Datenbank.deps.json
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\bin\Debug\netcoreapp3.1\Datenbank.runtimeconfig.json
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\bin\Debug\netcoreapp3.1\Datenbank.runtimeconfig.dev.json
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\bin\Debug\netcoreapp3.1\Datenbank.dll
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\bin\Debug\netcoreapp3.1\Datenbank.pdb
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\obj\Debug\netcoreapp3.1\Datenbank.csprojAssemblyReference.cache
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\obj\Debug\netcoreapp3.1\Datenbank.AssemblyInfoInputs.cache
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\obj\Debug\netcoreapp3.1\Datenbank.AssemblyInfo.cs
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\obj\Debug\netcoreapp3.1\Datenbank.csproj.CoreCompileInputs.cache
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\obj\Debug\netcoreapp3.1\Datenbank.dll
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\obj\Debug\netcoreapp3.1\Datenbank.pdb
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Datenbank\obj\Debug\netcoreapp3.1\Datenbank.genruntimeconfig.cache
