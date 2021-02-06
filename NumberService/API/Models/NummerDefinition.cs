@@ -10,6 +10,7 @@ namespace API.Models
         public NummerDefinition()
         {
             NummerInformations = new HashSet<NummerInformation>();
+            NummerDefinitionQuelles = new HashSet<NummerDefinitionQuelle>();
         }
 
         public long NummerDefinitionId { get; set; }
@@ -20,5 +21,6 @@ namespace API.Models
 
         public virtual Datentyp NummerDefinitionZielDatentyp { get; set; }
         public virtual ICollection<NummerInformation> NummerInformations { get; set; }
+        public virtual ICollection<NummerDefinitionQuelle> NummerDefinitionQuelles { get; set; }
     }
 }
