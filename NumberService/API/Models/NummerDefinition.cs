@@ -21,6 +21,6 @@ namespace API.Models
 
         public virtual Datentyp NummerDefinitionZielDatentyp { get; set; }
         public virtual ICollection<NummerInformation> NummerInformations { get; set; }
-        public virtual ICollection<NummerDefinitionQuelle> NummerDefinitionQuelles { get; set; }
+        public ICollection<NummerDefinitionQuelle> NummerDefinitionQuelles { get; set; }
     }
 }

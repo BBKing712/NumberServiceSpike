@@ -22,7 +22,9 @@ namespace API.Controllers
         // GET: api/NummerDefinitions
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NummerDefinition>>> GetNummerDefinitions()
-        {
+                    {
+            var xxx = _context.NummerDefinitions.Include(e => e.NummerDefinitionQuelles);
+
             return await _context.NummerDefinitions.ToListAsync();
         }
 
