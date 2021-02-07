@@ -36,6 +36,15 @@ namespace API.Controllers
 
             return await _context.NummerDefinitions.ToListAsync();
         }
+        // POst: api/Nummern/ErstelleNummerDefinition
+        [HttpPost("ErstelleNummerDefinition")]
+        public async Task<ActionResult<long>> ErstelleNummerDefinition(NummerDefinition nummerDefinition)
+        {
+            //NummerDefinition nummerDefinition = new NummerDefinition();
+            long id = nummerDefinition.NummerDefinitionId;
+            return id;
+        }
+
 
 
     }
