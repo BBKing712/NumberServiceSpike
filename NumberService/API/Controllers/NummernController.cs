@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
-using API.Models;
 using API.Requests;
 using API.Helpers;
 
@@ -128,6 +127,46 @@ namespace API.Controllers
 
             return nummerInformation;
         }
+        //POst: api/Nummern/HoleNummerInformation
+        [HttpPost("HoleNummerInformation")]
+        public async Task<ActionResult<NummerInformation>> HoleNummerInformation(HoleNummerInformation holeNummerInformation)
+        {
+            NummerInformation nummerInformation = null;
+            var tmp = await _context.NummerDefinitions.Include(e => e.NummerDefinitionQuelles).ToListAsync();
+
+            NummerDefinition foundNummerDefinition = _context.NummerDefinitions.Where(e => (e.NummerDefinitionId == holeNummerInformation.nummer_definition_id)).FirstOrDefault();
+            if (foundNummerDefinition == null)
+            {
+                throw new Exception(string.Format("für die nummer_definition_id = '{0}' existiert keine gültig Nummerdefinition.", holeNummerInformation.nummer_definition_id));
+            }
+            else if (foundNummerDefinition.NummerDefinitionQuelles == null || foundNummerDefinition.NummerDefinitionQuelles.Count == 0)
+            {
+                throw new Exception("Für die Nummerdefinition sind keine Quellen definiert.");
+            }
+            else if (foundNummerDefinition.NummerDefinitionQuelles.Count != holeNummerInformation.quellen.Count())
+            {
+                throw new Exception("Die Anzahl der definierten Quellen stimmt nicht mit der Anzahl der übergebenen Quellen überein.");
+            }
+            else
+            {
+                //List<NummerInformation> NummerInformations = _context.NummerInformations.Where(e => e.NummerDefinitionId == holeNummerInformation.nummer_definition_id).ToList();
+                string rawSQL = NummerInformationRawSQLGenerator.GenersateRawSQL(holeNummerInformation.nummer_definition_id, foundNummerDefinition.NummerDefinitionQuelles, holeNummerInformation.quellen);
+                List<NummerInformation> NummerInformations = await  _context.NummerInformations.FromSqlRaw(rawSQL).ToListAsync();
+                if(NummerInformations !!= null && NummerInformations.Count > 0)
+                {
+                    nummerInformation = NummerInformations.FirstOrDefault();
+                    return nummerInformation;
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+
+
+        }
+
 
 
 

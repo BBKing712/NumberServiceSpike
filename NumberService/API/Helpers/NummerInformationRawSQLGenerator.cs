@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace API.Helpers
 {
-    public static class NumberInformationJSONGenerator
+    public static class NummerInformationRawSQLGenerator
     {
-        private const string quote = "\"";
-
-        public static string GenerateJSON(ICollection<NummerDefinitionQuelle> nummerDefinitionQuelles, object[] quellen)
+        private const string quotationmark = "'";
+        public static string GenersateRawSQL(long nummer_definition_id, ICollection<NummerDefinitionQuelle> nummerDefinitionQuelles, object[] quellen)
         {
+            //string rAWsql = "";
             if (nummerDefinitionQuelles == null) throw new ArgumentNullException(nameof(nummerDefinitionQuelles));
             if (nummerDefinitionQuelles.Count == 0) throw new ArgumentException(nameof(nummerDefinitionQuelles) + "ist leer");
             if (quellen == null) throw new ArgumentNullException(nameof(quellen));
             if (quellen.Count() == 0) throw new ArgumentException(nameof(quellen) + "ist leer");
-            if (nummerDefinitionQuelles.Count != quellen.Count()) throw new Exception(nameof(nummerDefinitionQuelles) + "und"+ nameof(quellen)+ "haben unterschiedliche Größen");
+            if (nummerDefinitionQuelles.Count != quellen.Count()) throw new Exception(nameof(nummerDefinitionQuelles) + "und" + nameof(quellen) + "haben unterschiedliche Größen");
 
-            StringBuilder json = new StringBuilder();
-            json.Append("{");
+            StringBuilder rAWsql = new StringBuilder();
+            rAWsql.Append("Select * from nummer_information");
+            rAWsql.Append(" Where nummer_definition_id = " + nummer_definition_id.ToString());
             int index = 0;
             foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.NummerDefinitionPos))
             {
@@ -30,7 +31,7 @@ namespace API.Helpers
                 {
                     case 1:
                         //String
-                        quelleAlsString = quote + quelle.ToString() + quote;
+                        quelleAlsString = quotationmark + quelle.ToString() + quotationmark;
                         break;
                     case 2:
                         //Integer
@@ -38,21 +39,21 @@ namespace API.Helpers
                         break;
                     case 3:
                         //GUID
-                        quelleAlsString = quote + quelle.ToString() + quote;
+                        quelleAlsString = quotationmark + quelle.ToString() + quotationmark;
                         break;
 
                     default:
                         break;
                 }
-
-                json.Append(quote + item.NummerDefinitionBezeichnung + quote + ": " + quelleAlsString + ", ");
+                //JSON_VALUE(Nnmmer_information_quelle, '$.Wert1') = 'abc';
+                rAWsql.Append(" And JSON_VALUE(Nnmmer_information_quelle, '$." + item.NummerDefinitionBezeichnung + "') = " + quelleAlsString);
                 index++;
 
             }
-            json.Append("}");
 
 
-            return json.ToString();
+            return rAWsql.ToString();
         }
+
     }
 }
