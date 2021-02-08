@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 using API.Requests;
+using API.Helpers;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
 
-    public class NummernController
+    public class NummernController : ControllerBase
     {
         private readonly NumberserviceContext _context;
 
@@ -77,7 +78,7 @@ namespace API.Controllers
         public async Task<ActionResult<long>> ErstelleNummerInformation(ErstelleNummerInformation erstelleNummerInformation)
         {
             long id = 0;
-            var tmp = _context.NummerDefinitions.Include(e => e.NummerDefinitionQuelles).ToList();
+            var tmp = await _context.NummerDefinitions.Include(e => e.NummerDefinitionQuelles).ToListAsync();
 
             NummerDefinition foundNummerDefinition = _context.NummerDefinitions.Where(e => (e.NummerDefinitionId == erstelleNummerInformation.nummer_definition_id)).FirstOrDefault();
             if(foundNummerDefinition == null)
@@ -100,7 +101,7 @@ namespace API.Controllers
             {
                 NummerInformation nummerInformation = new NummerInformation();
                 nummerInformation.NummerDefinitionId = erstelleNummerInformation.nummer_definition_id;
-                string jsonQuellen = "Dummy";
+                string jsonQuellen = NumberInformationJSONGenerator.GenerateJSON(foundNummerDefinition.NummerDefinitionQuelles, erstelleNummerInformation.quellen);
                 nummerInformation.NnmmerInformationQuelle = jsonQuellen ;
                 nummerInformation.NummerInformationZiel = erstelleNummerInformation.ziel.ToString();
 
@@ -114,6 +115,20 @@ namespace API.Controllers
 
             return id;
         }
+        // GET: api/Nummern//HoleNummerInformation/5
+        [HttpGet("HoleNummerInformation/{id}")]
+        public async Task<ActionResult<NummerInformation>> HoleNummerInformation(long id)
+        {
+            var nummerInformation = await _context.NummerInformations.FindAsync(id);
+
+            if (nummerInformation == null)
+            {
+                return NotFound();
+            }
+
+            return nummerInformation;
+        }
+
 
 
 
