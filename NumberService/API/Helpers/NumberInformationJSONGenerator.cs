@@ -22,11 +22,11 @@ namespace API.Helpers
             StringBuilder json = new StringBuilder();
             json.Append("{");
             int index = 0;
-            foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.NummerDefinitionPos))
+            foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.NummerDefinitionQuellePos))
             {
                 object quelle = quellen[index];
                 string quelleAlsString = "";
-                switch (item.NummerDefinitionDatentypId)
+                switch (item.NummerDefinitionQuelleDatentypId)
                 {
                     case 1:
                         //String
@@ -45,7 +45,7 @@ namespace API.Helpers
                         break;
                 }
 
-                json.Append(quote + item.NummerDefinitionBezeichnung + quote + ": " + quelleAlsString + ", ");
+                json.Append(quote + item.NummerDefinitionQuelleBezeichnung + quote + ": " + quelleAlsString + ", ");
                 index++;
 
             }

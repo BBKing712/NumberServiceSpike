@@ -23,11 +23,11 @@ namespace API.Helpers
             rAWsql.Append("Select * from nummer_information");
             rAWsql.Append(" Where nummer_definition_id = " + nummer_definition_id.ToString());
             int index = 0;
-            foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.NummerDefinitionPos))
+            foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.NummerDefinitionQuellePos))
             {
                 object quelle = quellen[index];
                 string quelleAlsString = "";
-                switch (item.NummerDefinitionDatentypId)
+                switch (item.NummerDefinitionQuelleDatentypId)
                 {
                     case 1:
                         //String
@@ -46,7 +46,7 @@ namespace API.Helpers
                         break;
                 }
                 //JSON_VALUE(Nnmmer_information_quelle, '$.Wert1') = 'abc';
-                rAWsql.Append(" And JSON_VALUE(Nnmmer_information_quelle, '$." + item.NummerDefinitionBezeichnung + "') = " + quelleAlsString);
+                rAWsql.Append(" And JSON_VALUE(Nnmmer_information_quelle, '$." + item.NummerDefinitionQuelleBezeichnung + "') = " + quelleAlsString);
                 index++;
 
             }

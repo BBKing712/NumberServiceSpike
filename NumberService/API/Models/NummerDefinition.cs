@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
 
 namespace API.Models
 {
@@ -9,8 +11,9 @@ namespace API.Models
     {
         public NummerDefinition()
         {
-            NummerInformations = new HashSet<NummerInformation>();
-            NummerDefinitionQuelles = new HashSet<NummerDefinitionQuelle>();
+            NummerInformationen = new HashSet<NummerInformation>();
+            NummerDefinitionQuellen = new HashSet<NummerDefinitionQuelle>();
+
         }
 
         public long NummerDefinitionId { get; set; }
@@ -20,7 +23,9 @@ namespace API.Models
         public string NummerDefinitionZielBezeichnung { get; set; }
 
         public virtual Datentyp NummerDefinitionZielDatentyp { get; set; }
-        public virtual ICollection<NummerInformation> NummerInformations { get; set; }
-        public ICollection<NummerDefinitionQuelle> NummerDefinitionQuelles { get; set; }
+        public virtual ICollection<NummerInformation> NummerInformationen { get; set; }
+        public ICollection<NummerDefinitionQuelle> NummerDefinitionQuellen { get; set; }
+
+
     }
 }
