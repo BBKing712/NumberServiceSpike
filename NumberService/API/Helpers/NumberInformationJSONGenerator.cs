@@ -1,12 +1,12 @@
-﻿using API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace API.Helpers
 {
+    using System.Text;
+    using API.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class NumberInformationJSONGenerator
     {
         private const string quote = "\"";
@@ -25,7 +25,7 @@ namespace API.Helpers
             foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.NummerDefinitionQuellePos))
             {
                 object quelle = quellen[index];
-                string quelleAlsString = "";
+                string quelleAlsString = string.Empty;
                 switch (item.NummerDefinitionQuelleDatentypId)
                 {
                     case 1:
@@ -47,8 +47,8 @@ namespace API.Helpers
 
                 json.Append(quote + item.NummerDefinitionQuelleBezeichnung + quote + ": " + quelleAlsString + ", ");
                 index++;
-
             }
+
             json.Append("}");
 
 

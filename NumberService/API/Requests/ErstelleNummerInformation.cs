@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
-
-namespace API.Requests
+﻿namespace API.Requests
 {
+    using System.Runtime.Serialization;
+
     public class ErstelleNummerInformation
     {
-
         [DataMember]
         public long nummer_definition_id { get; set; }
 

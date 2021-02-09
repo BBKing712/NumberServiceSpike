@@ -1,12 +1,12 @@
-﻿using API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace API.Helpers
 {
+    using API.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     public static class NummerInformationRawSQLGenerator
     {
         private const string quotationmark = "'";
@@ -45,15 +45,14 @@ namespace API.Helpers
                     default:
                         break;
                 }
+
                 //JSON_VALUE(Nnmmer_information_quelle, '$.Wert1') = 'abc';
                 rAWsql.Append(" And JSON_VALUE(Nnmmer_information_quelle, '$." + item.NummerDefinitionQuelleBezeichnung + "') = " + quelleAlsString);
                 index++;
-
             }
 
 
             return rAWsql.ToString();
         }
-
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ov2smuXaURxvmyyQOy8Gh9cZyjiKzMjek44VlB/5/Xqg6Sx9OeKyJYQMAvgzAlM9M6kz1+LNynEkeTxWQ1Lp1Q==",
+  "dgSpecHash": "bnXRQv4YISk3CRPW/Ji7WvchrvXv1iKFJUcZc7HT7ktqm4V7OYSzir9hmMwcUR8eu8chcWLug8lob/Oq4lFn3Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\b.korn\\Desktop\\My\\Nummernservice\\NumberServiceSpike\\NumberService\\API\\API.csproj",
   "expectedPackageFiles": [
@@ -86,6 +86,8 @@
     "C:\\Users\\b.korn\\.nuget\\packages\\sqlitepclraw.core\\2.0.2\\sqlitepclraw.core.2.0.2.nupkg.sha512",
     "C:\\Users\\b.korn\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.0.2\\sqlitepclraw.lib.e_sqlite3.2.0.2.nupkg.sha512",
     "C:\\Users\\b.korn\\.nuget\\packages\\sqlitepclraw.provider.dynamic_cdecl\\2.0.2\\sqlitepclraw.provider.dynamic_cdecl.2.0.2.nupkg.sha512",
+    "C:\\Users\\b.korn\\.nuget\\packages\\stylecop.analyzers\\1.2.0-beta.321\\stylecop.analyzers.1.2.0-beta.321.nupkg.sha512",
+    "C:\\Users\\b.korn\\.nuget\\packages\\stylecop.analyzers.unstable\\1.2.0.321\\stylecop.analyzers.unstable.1.2.0.321.nupkg.sha512",
     "C:\\Users\\b.korn\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\b.korn\\.nuget\\packages\\system.buffers\\4.3.0\\system.buffers.4.3.0.nupkg.sha512",
     "C:\\Users\\b.korn\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",

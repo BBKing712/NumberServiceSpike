@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
-
-namespace API.Requests
+﻿namespace API.Requests
 {
+    using System.Runtime.Serialization;
+
     public class HoleNummerInformation
     {
         [DataMember]
@@ -13,6 +9,5 @@ namespace API.Requests
 
         [DataMember]
         public object[] quellen { get; set; }
-
     }
 }

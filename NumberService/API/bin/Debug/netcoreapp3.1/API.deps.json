@@ -28,6 +28,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "3.1.11",
           "Microsoft.EntityFrameworkCore.Tools": "3.1.11",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
+          "StyleCop.Analyzers": "1.2.0-beta.321",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -1427,6 +1428,12 @@
           "lib/netstandard2.0/SQLitePCLRaw.provider.dynamic_cdecl.dll": {}
         }
       },
+      "StyleCop.Analyzers/1.2.0-beta.321": {
+        "dependencies": {
+          "StyleCop.Analyzers.Unstable": "1.2.0.321"
+        }
+      },
+      "StyleCop.Analyzers.Unstable/1.2.0.321": {},
       "System.AppContext/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
@@ -4573,6 +4580,20 @@
       "sha512": "sha512-ZSwacbKJUsxJEZxwT23uZVrGbaIvXcADZDz5Sr66fikO5eehdcceDncjzwzTzWfW13di8gpTpstx3WJSt/Ci5Q==",
       "path": "sqlitepclraw.provider.dynamic_cdecl/2.0.2",
       "hashPath": "sqlitepclraw.provider.dynamic_cdecl.2.0.2.nupkg.sha512"
+    },
+    "StyleCop.Analyzers/1.2.0-beta.321": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-immyDIuCjDT2sxv+mAhQ2IH4HyiHJkAvKqK7l1ksJDWAOdeAvkco7EZ14IGWbiWNOEBRm1p7P9UAbfgT9aJSEA==",
+      "path": "stylecop.analyzers/1.2.0-beta.321",
+      "hashPath": "stylecop.analyzers.1.2.0-beta.321.nupkg.sha512"
+    },
+    "StyleCop.Analyzers.Unstable/1.2.0.321": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CLL1cwvzGyXsCDzHQuAV3STrkIfTXqlS/vnxJTlSiRmmFjnTnoNVIZWwv738/hWxoh8MjPyHlp7eLossZIB5kg==",
+      "path": "stylecop.analyzers.unstable/1.2.0.321",
+      "hashPath": "stylecop.analyzers.unstable.1.2.0.321.nupkg.sha512"
     },
     "System.AppContext/4.3.0": {
       "type": "package",

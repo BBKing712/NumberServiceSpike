@@ -1,20 +1,19 @@
-﻿using API.Models;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using API.Requests;
-using API.Helpers;
-
+﻿
 namespace API.Controllers
 {
+    using API.Helpers;
+    using API.Models;
+    using API.Requests;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     [Route("api/[controller]")]
     [ApiController]
-
-    public class NummernController : ControllerBase
+   public class NummernController : ControllerBase
     {
         private readonly NumberserviceContext _context;
 
@@ -29,6 +28,7 @@ namespace API.Controllers
         {
             return await _context.Datentyp.ToListAsync();
         }
+
         // GET: api/Nummern/HoleNummerDefinitionen
         [HttpGet("HoleNummerDefinitionen")]
         public async Task<ActionResult<IEnumerable<NummerDefinition>>> HoleNummerDefinitionen()
@@ -39,6 +39,7 @@ namespace API.Controllers
 
             return await _context.NummerDefinition.ToListAsync();
         }
+
         // POst: api/Nummern/ErstelleNummerDefinition
         [HttpPost("ErstelleNummerDefinition")]
         public async Task<ActionResult<long>> ErstelleNummerDefinition(NummerDefinition nummerDefinition)
@@ -48,6 +49,7 @@ namespace API.Controllers
             {
                 throw new Exception("der Wert für NummerDefinitionBezeichnung muss eindeutig sein.");
             }
+
             List<NummerDefinitionQuelle> nummerDefinitionQuelles = nummerDefinition.NummerDefinitionQuellen.ToList();
             nummerDefinition.NummerDefinitionQuellen.Clear();
             nummerDefinition.NummerDefinitionQuellen = null;
@@ -65,8 +67,8 @@ namespace API.Controllers
                 pos++;
                 _context.NummerDefinitionQuelle.Add(nummerDefinitionQuelle);
                 nummerDefinitionQuelle.NummerDefinitionId = nummerDefinition.NummerDefinitionId;
-
             }
+
             await _context.SaveChangesAsync();
             long id = nummerDefinition.NummerDefinitionId;
             return id;
@@ -108,12 +110,12 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
 
                 guid = nummerInformation.NummerInformationGuid;
-
             }
 
 
             return guid;
         }
+
         // GET: api/Nummern//HoleNummerInformation/5
         [HttpGet("HoleNummerInformation/{id}")]
         public async Task<ActionResult<NummerInformation>> HoleNummerInformation(long id)
@@ -127,6 +129,7 @@ namespace API.Controllers
 
             return nummerInformation;
         }
+
         //POst: api/Nummern/HoleNummerInformation
         [HttpPost("HoleNummerInformation")]
         public async Task<ActionResult<NummerInformation>> HoleNummerInformation(HoleNummerInformation holeNummerInformation)
@@ -151,26 +154,17 @@ namespace API.Controllers
             {
                 //List<NummerInformation> NummerInformations = _context.NummerInformations.Where(e => e.NummerDefinitionId == holeNummerInformation.nummer_definition_id).ToList();
                 string rawSQL = NummerInformationRawSQLGenerator.GenersateRawSQL(holeNummerInformation.nummer_definition_id, foundNummerDefinition.NummerDefinitionQuellen, holeNummerInformation.quellen);
-                List<NummerInformation> NummerInformations = await  _context.NummerInformation.FromSqlRaw(rawSQL).ToListAsync();
-                if(NummerInformations !!= null && NummerInformations.Count > 0)
+                List<NummerInformation> nummerInformations = await  _context.NummerInformation.FromSqlRaw(rawSQL).ToListAsync();
+                if(nummerInformations !!= null && nummerInformations.Count > 0)
                 {
-                    nummerInformation = NummerInformations.FirstOrDefault();
+                    nummerInformation = nummerInformations.FirstOrDefault();
                     return nummerInformation;
                 }
                 else
                 {
                     return NotFound();
                 }
-
             }
-
-
         }
-
-
-
-
-
-
     }
 }
