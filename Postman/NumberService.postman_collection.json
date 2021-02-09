@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "a0e5b1fe-ec5f-4cc6-907f-8b2dfcb0610d",
+		"name": "NumberService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "NumberService_WeatherForecast",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local_url}}/WeatherForecast",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"WeatherForecast"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberService_Nummern_Alle Datentypen abrufen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local_url}}/api/Nummern/HoleDatentypen",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"api",
+						"Nummern",
+						"HoleDatentypen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberService_Nummern_eine NummernInformation abrufen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local_url}}/api/Nummern/HoleNummerInformation/5",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"api",
+						"Nummern",
+						"HoleNummerInformation",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberService_Nummern_eine NummernDefinition abrufen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local_url}}/api/Nummern/HoleNummerDefinition/7",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"api",
+						"Nummern",
+						"HoleNummerDefinition",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberService_Nummern_Alle NummernDefinitionen abrufen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local_url}}/api/Nummern/HoleNummerDefinitionen",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"api",
+						"Nummern",
+						"HoleNummerDefinitionen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberService_Nummern_Eine NummernDefinitionen erstellen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n        \"nummerDefinitionBezeichnung\": \"Test3\",\r\n        \"nummerDefinitionQuelleBezeichnung\": \"Quelle2\",\r\n        \"nummerDefinitionZielDatentypId\": 2,\r\n        \"nummerDefinitionZielBezeichnung\": \"Ziel2\",\r\n\r\n        \"nummerDefinitionQuelles\": \r\n        [\r\n            {\r\n                       \"NummerDefinitionBezeichnung\": \"Wert1\",\r\n                        \"NummerDefinitionDatentypId\": 1\r\n            },\r\n            {\r\n                       \"NummerDefinitionBezeichnung\": \"Wert2\",\r\n                        \"NummerDefinitionDatentypId\": 2\r\n            },\r\n            {\r\n                       \"NummerDefinitionBezeichnung\": \"Wert3\",\r\n                        \"NummerDefinitionDatentypId\": 3\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local_url}}/api/Nummern/ErstelleNummerDefinition",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"api",
+						"Nummern",
+						"ErstelleNummerDefinition"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberService_Nummern_Eine NummernInformation erstellen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nummer_definition_id\": 7,\r\n    \"quellen\":\r\n    [\r\n        \"abc\",\r\n        20,\r\n        \"0CE65519-99F7-4ADF-87C5-307B9FA9A813\"\r\n    ],\r\n    \"ziel\": 120\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local_url}}/api/Nummern/ErstelleNummerInformation",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"api",
+						"Nummern",
+						"ErstelleNummerInformation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberService_Nummern_Eine NummernInformation holen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nummer_definition_id\": 7,\r\n    \"quellen\":\r\n    [\r\n        \"abc\",\r\n        12,\r\n        \"0CE65519-99F7-4ADF-87C5-307B9FA9A813\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local_url}}/api/Nummern/HoleNummerInformation",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"api",
+						"Nummern",
+						"HoleNummerInformation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
