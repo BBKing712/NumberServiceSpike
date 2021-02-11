@@ -11,7 +11,7 @@ namespace API
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -20,12 +20,10 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //            services.AddControllers().AddNewtonsoftJson(options =>
+
+            // services.AddControllers().AddNewtonsoftJson(options =>
             //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            //);
-
-
-
+            // );
             services.AddDbContext<NumberserviceContext>();
         }
 

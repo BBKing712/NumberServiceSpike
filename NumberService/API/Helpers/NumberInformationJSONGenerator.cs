@@ -1,23 +1,41 @@
-﻿
-namespace API.Helpers
+﻿namespace API.Helpers
 {
-    using System.Text;
-    using API.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
+    using API.Models;
 
     public static class NumberInformationJSONGenerator
     {
-        private const string quote = "\"";
+        private const string Quote = "\"";
 
         public static string GenerateJSON(ICollection<NummerDefinitionQuelle> nummerDefinitionQuelles, object[] quellen)
         {
-            if (nummerDefinitionQuelles == null) throw new ArgumentNullException(nameof(nummerDefinitionQuelles));
-            if (nummerDefinitionQuelles.Count == 0) throw new ArgumentException(nameof(nummerDefinitionQuelles) + "ist leer");
-            if (quellen == null) throw new ArgumentNullException(nameof(quellen));
-            if (quellen.Count() == 0) throw new ArgumentException(nameof(quellen) + "ist leer");
-            if (nummerDefinitionQuelles.Count != quellen.Count()) throw new Exception(nameof(nummerDefinitionQuelles) + "und"+ nameof(quellen)+ "haben unterschiedliche Größen");
+            if (nummerDefinitionQuelles == null)
+            {
+                throw new ArgumentNullException(nameof(nummerDefinitionQuelles));
+            }
+
+            if (nummerDefinitionQuelles.Count == 0)
+            {
+                throw new ArgumentException(nameof(nummerDefinitionQuelles) + "ist leer");
+            }
+
+            if (quellen == null)
+            {
+                throw new ArgumentNullException(nameof(quellen));
+            }
+
+            if (quellen.Count() == 0)
+            {
+                throw new ArgumentException(nameof(quellen) + "ist leer");
+            }
+
+            if (nummerDefinitionQuelles.Count != quellen.Count())
+            {
+                throw new Exception(nameof(nummerDefinitionQuelles) + "und" + nameof(quellen) + "haben unterschiedliche Größen");
+            }
 
             StringBuilder json = new StringBuilder();
             json.Append("{");
@@ -29,28 +47,27 @@ namespace API.Helpers
                 switch (item.NummerDefinitionQuelleDatentypId)
                 {
                     case 1:
-                        //String
-                        quelleAlsString = quote + quelle.ToString() + quote;
+                        // String
+                        quelleAlsString = Quote + quelle.ToString() + Quote;
                         break;
                     case 2:
-                        //Integer
+                        // Integer
                         quelleAlsString = quelle.ToString();
                         break;
                     case 3:
-                        //GUID
-                        quelleAlsString = quote + quelle.ToString() + quote;
+                        // GUID
+                        quelleAlsString = Quote + quelle.ToString() + Quote;
                         break;
 
                     default:
                         break;
                 }
 
-                json.Append(quote + item.NummerDefinitionQuelleBezeichnung + quote + ": " + quelleAlsString + ", ");
+                json.Append(Quote + item.NummerDefinitionQuelleBezeichnung + Quote + ": " + quelleAlsString + ", ");
                 index++;
             }
 
             json.Append("}");
-
 
             return json.ToString();
         }

@@ -1,9 +1,4 @@
-﻿
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
-
-namespace API.Models
+﻿namespace API.Models
 {
     using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +14,11 @@ namespace API.Models
         }
 
         public virtual DbSet<Datentyp> Datentyp { get; set; }
+
         public virtual DbSet<NummerDefinition> NummerDefinition { get; set; }
+
         public virtual DbSet<NummerDefinitionQuelle> NummerDefinitionQuelle { get; set; }
+
         public virtual DbSet<NummerInformation> NummerInformation { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -68,7 +66,6 @@ namespace API.Models
                 entity.Property(e => e.NummerDefinitionGuid)
     .HasColumnName("nummer_definition_guid")
     .HasDefaultValueSql("(newid())");
-
 
                 entity.Property(e => e.NummerDefinitionQuelleBezeichnung)
                     .IsRequired()
@@ -150,7 +147,7 @@ namespace API.Models
                     .HasConstraintName("FK_nummer_information_nummer_definition");
             });
 
-            OnModelCreatingPartial(modelBuilder);
+            this.OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

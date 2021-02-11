@@ -1,19 +1,15 @@
-﻿using API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace API.Responses
+﻿namespace API.Responses
 {
+    using System;
+    using System.Collections.Generic;
+    using API.Models;
+
     public class ErstellteNummerDefinition
     {
-
         public ErstellteNummerDefinition()
         {
-            NummerDefinitionQuellen = new List<NummerDefinitionQuelle>();
+            this.NummerDefinitionQuellen = new List<NummerDefinitionQuelle>();
         }
-
 
         public long Id { get; set; }
 

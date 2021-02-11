@@ -1,4 +1,3 @@
-
 namespace API
 {
     using Microsoft.AspNetCore.Hosting;

@@ -5,11 +5,12 @@
     public class ErstelleNummerInformation
     {
         [DataMember]
-        public long nummer_definition_id { get; set; }
+        public long Nummer_definition_id { get; set; }
 
         [DataMember]
-        public object[] quellen { get; set; }
+        public object[] Quellen { get; set; }
+
         [DataMember]
-        public object ziel { get; set; }
+        public object Ziel { get; set; }
     }
 }

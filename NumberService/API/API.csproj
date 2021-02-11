@@ -5,6 +5,10 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;SA1600;SA1601;SA1633</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Controllers\DatentypsController.cs" />
     <Compile Remove="Controllers\NummerDefinitionsController.cs" />
