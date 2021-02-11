@@ -107,7 +107,35 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\r\n        \"nummerDefinitionBezeichnung\": \"Test3\",\r\n        \"nummerDefinitionQuelleBezeichnung\": \"Quelle2\",\r\n        \"nummerDefinitionZielDatentypId\": 2,\r\n        \"nummerDefinitionZielBezeichnung\": \"Ziel2\",\r\n\r\n        \"nummerDefinitionQuelles\": \r\n        [\r\n            {\r\n                       \"NummerDefinitionBezeichnung\": \"Wert1\",\r\n                        \"NummerDefinitionDatentypId\": 1\r\n            },\r\n            {\r\n                       \"NummerDefinitionBezeichnung\": \"Wert2\",\r\n                        \"NummerDefinitionDatentypId\": 2\r\n            },\r\n            {\r\n                       \"NummerDefinitionBezeichnung\": \"Wert3\",\r\n                        \"NummerDefinitionDatentypId\": 3\r\n            }\r\n        ]\r\n    }",
+					"raw": "{\r\n\r\n        \"nummerDefinitionBezeichnung\": \"Test3\",\r\n        \"nummerDefinitionQuelleBezeichnung\": \"Quelle2\",\r\n        \"nummerDefinitionZielDatentypId\": 2,\r\n        \"nummerDefinitionZielBezeichnung\": \"Ziel2\",\r\n\r\n        \"nummerDefinitionQuellen\": \r\n        [\r\n            {\r\n                       \"NummerDefinitionQuelleBezeichnung\": \"Wert1\",\r\n                        \"NummerDefinitionQuelleDatentypId\": 1\r\n            },\r\n            {\r\n                       \"NummerDefinitionQuelleBezeichnung\": \"Wert2\",\r\n                        \"NummerDefinitionQuelleDatentypId\": 2\r\n            },\r\n            {\r\n                       \"NummerDefinitionQuelleBezeichnung\": \"Wert3\",\r\n                        \"NummerDefinitionQuelleDatentypId\": 3\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local_url}}/api/Nummern/ErstelleNummerDefinition",
+					"host": [
+						"{{local_url}}"
+					],
+					"path": [
+						"api",
+						"Nummern",
+						"ErstelleNummerDefinition"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberService_Nummern_Eine NummernDefinitionen erstellen Test",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n        \"nummerDefinitionBezeichnung\": \"Test9\",\r\n        \"nummerDefinitionQuelleBezeichnung\": \"Quelle2\",\r\n        \"nummerDefinitionZielDatentypId\": 2,\r\n        \"nummerDefinitionZielBezeichnung\": \"Ziel2\",\r\n\r\n        \"nummerDefinitionQuellen\": \r\n        [\r\n            {\r\n                       \"NummerDefinitionQuelleBezeichnung\": \"Wert1\",\r\n                        \"NummerDefinitionQuelleDatentypId\": 1\r\n            },\r\n            {\r\n                       \"NummerDefinitionQuelleBezeichnung\": \"Wert0\",\r\n                        \"NummerDefinitionQuelleDatentypId\": 2\r\n            },\r\n            {\r\n                       \"NummerDefinitionQuelleBezeichnung\": \"Wert2\",\r\n                        \"NummerDefinitionQuelleDatentypId\": 3\r\n            }\r\n        ]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
