@@ -65,6 +65,11 @@ namespace API.Models
                     .HasColumnName("nummer_definition_bezeichnung")
                     .HasMaxLength(50);
 
+                entity.Property(e => e.NummerDefinitionGuid)
+    .HasColumnName("nummer_definition_guid")
+    .HasDefaultValueSql("(newid())");
+
+
                 entity.Property(e => e.NummerDefinitionQuelleBezeichnung)
                     .IsRequired()
                     .HasColumnName("nummer_definition_quelle_bezeichnung")

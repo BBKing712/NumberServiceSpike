@@ -10,6 +10,7 @@ namespace API.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using API.Responses;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -42,13 +43,22 @@ namespace API.Controllers
 
         // POst: api/Nummern/ErstelleNummerDefinition
         [HttpPost("ErstelleNummerDefinition")]
-        public async Task<ActionResult<long>> ErstelleNummerDefinition(NummerDefinition nummerDefinition)
+        public async Task<ActionResult<ErstellteNummerDefinition>> ErstelleNummerDefinition(NummerDefinition nummerDefinition)
         {
             NummerDefinition foundNummerDefinition = _context.NummerDefinition.Where(e => (e.NummerDefinitionBezeichnung == nummerDefinition.NummerDefinitionBezeichnung)).FirstOrDefault();
             if (foundNummerDefinition != null)
             {
                 throw new Exception("der Wert für NummerDefinitionBezeichnung muss eindeutig sein.");
             }
+            var invalidgroups = nummerDefinition.NummerDefinitionQuellen.GroupBy(e => e.NummerDefinitionQuelleBezeichnung).Select(group => new {
+                Key = group.Key,
+                Count = group.Count()
+            }).Where(e => e.Count > 1);
+            if (invalidgroups.Count() > 0)
+            {
+                throw new Exception("der Werte für NummerDefinitionQuelleBezeichnung müssen eindeutig sein.");
+            }
+
 
             List<NummerDefinitionQuelle> nummerDefinitionQuelles = nummerDefinition.NummerDefinitionQuellen.ToList();
             nummerDefinition.NummerDefinitionQuellen.Clear();
@@ -70,8 +80,12 @@ namespace API.Controllers
             }
 
             await _context.SaveChangesAsync();
-            long id = nummerDefinition.NummerDefinitionId;
-            return id;
+            ErstellteNummerDefinition erstellteNummerDefinition = new ErstellteNummerDefinition();
+            erstellteNummerDefinition.Id = nummerDefinition.NummerDefinitionId;
+            erstellteNummerDefinition.Guid = nummerDefinition.NummerDefinitionGuid;
+            erstellteNummerDefinition.Bezeichnung = nummerDefinition.NummerDefinitionBezeichnung;
+            erstellteNummerDefinition.NummerDefinitionQuellen = nummerDefinition.NummerDefinitionQuellen.ToList();
+            return erstellteNummerDefinition;
         }
 
         //POst: api/Nummern/ErstelleNummerInformation

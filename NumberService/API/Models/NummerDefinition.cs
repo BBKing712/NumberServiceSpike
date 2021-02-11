@@ -5,6 +5,7 @@
 
 namespace API.Models
 {
+    using System;
     using System.Collections.Generic;
 
     public partial class NummerDefinition
@@ -16,6 +17,9 @@ namespace API.Models
         }
 
         public long NummerDefinitionId { get; set; }
+
+        public Guid NummerDefinitionGuid { get; set; }
+
         public string NummerDefinitionBezeichnung { get; set; }
         public string NummerDefinitionQuelleBezeichnung { get; set; }
         public long NummerDefinitionZielDatentypId { get; set; }
