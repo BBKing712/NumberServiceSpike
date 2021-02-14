@@ -1,4 +1,4 @@
-﻿namespace API.Models
+﻿namespace Common.Models
 {
     public partial class NummerDefinitionQuelle
     {

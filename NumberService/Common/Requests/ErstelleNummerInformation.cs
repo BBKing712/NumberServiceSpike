@@ -1,13 +1,16 @@
-﻿namespace API.Requests
+﻿namespace Common.Requests
 {
     using System.Runtime.Serialization;
 
-    public class HoleNummerInformation
+    public class ErstelleNummerInformation
     {
         [DataMember]
         public long Nummer_definition_id { get; set; }
 
         [DataMember]
         public object[] Quellen { get; set; }
+
+        [DataMember]
+        public object Ziel { get; set; }
     }
 }

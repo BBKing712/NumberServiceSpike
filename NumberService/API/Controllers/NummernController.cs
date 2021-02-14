@@ -6,9 +6,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using API.Helpers;
-    using API.Models;
-    using API.Requests;
-    using API.Responses;
+    using Common.Models;
+    using Common.Requests;
+    using Common.Responses;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +38,36 @@
 
             return await this._context.NummerDefinition.ToListAsync();
         }
+        // GET: api/HoleNummerDefinition/5
+        [HttpGet("HoleNummerDefinition/{id}")]
+        public async Task<ActionResult<NummerDefinition>> HoleNummerDefinition(long id)
+        {
+            var tmp = this._context.NummerDefinition.Include(e => e.NummerDefinitionQuellen.ToList());
+            var nummerDefinition = await _context.NummerDefinition.FindAsync(id);
+
+            if (nummerDefinition == null)
+            {
+                return NotFound();
+            }
+
+            return nummerDefinition;
+        }
+        // GET: api/HoleNummerDefinitionÜberBezeichnung/"xyz"
+        [HttpGet("HoleNummerDefinitionÜberBezeichnung/{bezeichnung}")]
+        public async Task<ActionResult<NummerDefinition>> HoleNummerDefinitionÜberBezeichnung(string  bezeichnung)
+        {
+            var tmp = this._context.NummerDefinition.Include(e => e.NummerDefinitionQuellen.ToList());
+            var nummerDefinition = await _context.NummerDefinition.FindAsync(bezeichnung);
+
+            if (nummerDefinition == null)
+            {
+                return NotFound();
+            }
+
+            return nummerDefinition;
+        }
+
+
 
         // POst: api/Nummern/ErstelleNummerDefinition
         [HttpPost("ErstelleNummerDefinition")]

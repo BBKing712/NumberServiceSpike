@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5NIxq7jSGU8YLA6RvNrct2vurP2til8oz4gWHzpLYaWLAe7qnj71z0IAf7H22L3RDvQ37tDPoSrmacGMi0MGkQ==",
+  "dgSpecHash": "n1KwUnLE+RThaf4MXLtn9KrKHL08LEw86g1Za1ixdbLIcZj+dlWCRSS1r6Mrtyo5vWnfmFnPh0plk6EeXOLyyA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\b.korn\\Desktop\\My\\Nummernservice\\NumberServiceSpike\\NumberService\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\b.korn\\Desktop\\My\\Nummernservice\\NumberServiceSpike\\NumberService\\Common\\Common.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\b.korn\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\b.korn\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

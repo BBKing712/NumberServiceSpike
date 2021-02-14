@@ -1,4 +1,4 @@
-﻿namespace API.Models
+﻿namespace Common.Models
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

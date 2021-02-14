@@ -5,7 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
-    using API.Models;
+    using Common.Models;
 
     public static class NummerInformationRawSQLGenerator
     {

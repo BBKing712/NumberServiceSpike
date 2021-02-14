@@ -1,8 +1,8 @@
-﻿namespace API.Responses
+﻿namespace Common.Responses
 {
     using System;
     using System.Collections.Generic;
-    using API.Models;
+    using Common.Models;
 
     public class ErstellteNummerDefinition
     {

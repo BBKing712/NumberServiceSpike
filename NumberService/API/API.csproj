@@ -10,6 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
+    <Compile Remove="Requests\**" />
+    <Compile Remove="Responses\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="Requests\**" />
+    <Content Remove="Responses\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Requests\**" />
+    <EmbeddedResource Remove="Responses\**" />
+    <None Remove="Models\**" />
+    <None Remove="Requests\**" />
+    <None Remove="Responses\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\DatentypsController.cs" />
     <Compile Remove="Controllers\NummerDefinitionsController.cs" />
     <Compile Remove="WeatherForecast.cs" />
@@ -27,6 +42,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
 
