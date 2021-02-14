@@ -57,7 +57,8 @@
         public async Task<ActionResult<NummerDefinition>> HoleNummerDefinitionÜberBezeichnung(string  bezeichnung)
         {
             var tmp = this._context.NummerDefinition.Include(e => e.NummerDefinitionQuellen.ToList());
-            var nummerDefinition = await _context.NummerDefinition.FindAsync(bezeichnung);
+            NummerDefinition nummerDefinition = await this._context.NummerDefinition.Where(e => (e.NummerDefinitionBezeichnung == bezeichnung)).FirstOrDefaultAsync();
+
 
             if (nummerDefinition == null)
             {
