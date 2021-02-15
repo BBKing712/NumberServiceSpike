@@ -1,9 +1,11 @@
 ﻿using Common.Models;
+using Common.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace TestConsole
@@ -17,8 +19,21 @@ namespace TestConsole
 
         static async Task  Main(string[] args)
         {
-            NummerDefinition nummerDefinition = null;
             string bezeichnung = NumberDefinitionBezeichnung.DEUWOAuftragsnummerZuGEMASAuftragsnummer.ToString();
+            bool existiert = await PrüfeExistenzNummerDefinitionAsync(bezeichnung);
+            if(!existiert)
+            {
+                ErstellteNummerDefinition erstellteNummerDefinition = await ErstelleNummerDefinition();
+                existiert = await PrüfeExistenzNummerDefinitionAsync(bezeichnung);
+            }
+
+
+        }
+
+        public static async Task<bool> PrüfeExistenzNummerDefinitionAsync(string bezeichnung)
+        {
+            bool existiert = false;
+            NummerDefinition nummerDefinition = null;
             using (var httpClient = new HttpClient())
             {
                 using (HttpResponseMessage response = await httpClient.GetAsync(BaseAPIURL + "HoleNummerDefinitionÜberBezeichnung/" + bezeichnung))
@@ -27,40 +42,63 @@ namespace TestConsole
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         nummerDefinition = JsonConvert.DeserializeObject<NummerDefinition>(apiResponse);
+                        existiert = nummerDefinition != null;
                     }
-
                 }
             }
 
-
+            return existiert;
         }
-
-        public static async Task PrüfeExistenzNummerDefinitionAsync(string bezeichnung)
+        public static async Task<ErstellteNummerDefinition> ErstelleNummerDefinition()
         {
+            ErstellteNummerDefinition erstellteNummerDefinition = null;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(BaseAPIURL + "HoleNummerDefinitionÜberBezeichnung/" + bezeichnung))
+                NummerDefinition nummerDefinition = LieferNummerDefinition();
+                StringContent content = new StringContent(JsonConvert.SerializeObject(nummerDefinition), Encoding.UTF8, "application/json");
+                using (HttpResponseMessage response = await httpClient.PostAsync(BaseAPIURL + "ErstelleNummerDefinition/", content))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    NummerDefinition nummerDefinition = JsonConvert.DeserializeObject<NummerDefinition>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        erstellteNummerDefinition = JsonConvert.DeserializeObject<ErstellteNummerDefinition>(apiResponse);
+                    }
                 }
             }
 
-
+            return erstellteNummerDefinition;
         }
 
-        public static async Task TestHoleNummerDefinitionen()
+        public static NummerDefinition LieferNummerDefinition()
         {
-            List<NummerDefinition> nummerDefinitionList = new List<NummerDefinition>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(BaseAPIURL + "HoleNummerDefinitionen"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    nummerDefinitionList = JsonConvert.DeserializeObject<List<NummerDefinition>>(apiResponse);
-                }
-            }
+            NummerDefinition nummerDefinition = new NummerDefinition();
+            nummerDefinition.NummerDefinitionBezeichnung = NumberDefinitionBezeichnung.DEUWOAuftragsnummerZuGEMASAuftragsnummer.ToString();
+            nummerDefinition.NummerDefinitionQuelleBezeichnung = "DEUWOAuftragsnummer";
+            nummerDefinition.NummerDefinitionZielBezeichnung = "GEMASAuftragsnummer";
+            nummerDefinition.NummerDefinitionZielDatentypId = (long)Datentyp.Integer;
+
+            //ICollection<NummerDefinitionQuelle> nummerDefinitionQuellen = new List<NummerDefinitionQuelle>();
+            NummerDefinitionQuelle nummerDefinitionQuelle = new NummerDefinitionQuelle();
+            nummerDefinitionQuelle.NummerDefinitionQuelleBezeichnung = "Auftragsnummer";
+            nummerDefinitionQuelle.NummerDefinitionQuelleDatentypId = (long)Datentyp.Integer;
+            nummerDefinition.NummerDefinitionQuellen.Add(nummerDefinitionQuelle);
+
+
+            return nummerDefinition;
         }
+
+        //public static async Task TestHoleNummerDefinitionen()
+        //{
+        //    List<NummerDefinition> nummerDefinitionList = new List<NummerDefinition>();
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        using (var response = await httpClient.GetAsync(BaseAPIURL + "HoleNummerDefinitionen"))
+        //        {
+        //            string apiResponse = await response.Content.ReadAsStringAsync();
+        //            nummerDefinitionList = JsonConvert.DeserializeObject<List<NummerDefinition>>(apiResponse);
+        //        }
+        //    }
+        //}
 
     }
 }
