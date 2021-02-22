@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
     using API.Helpers;
     using Common.Models;
@@ -34,16 +35,14 @@
         [HttpGet("HoleNummerDefinitionen")]
         public async Task<ActionResult<IEnumerable<NummerDefinition>>> HoleNummerDefinitionen()
         {
-            var tmp = this._context.NummerDefinition.Include(e => e.NummerDefinitionQuellen.ToList());
 
-            return await this._context.NummerDefinition.ToListAsync();
+            return await this._context.NummerDefinition.Include("NummerDefinitionQuellen").ToListAsync();
         }
         // GET: api/HoleNummerDefinition/5
         [HttpGet("HoleNummerDefinition/{id}")]
         public async Task<ActionResult<NummerDefinition>> HoleNummerDefinition(long id)
         {
-            var tmp = this._context.NummerDefinition.Include(e => e.NummerDefinitionQuellen.ToList());
-            var nummerDefinition = await _context.NummerDefinition.FindAsync(id);
+            var nummerDefinition = await _context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => e.NummerDefinitionId == id).FirstOrDefaultAsync();
 
             if (nummerDefinition == null)
             {
@@ -52,12 +51,11 @@
 
             return nummerDefinition;
         }
-        // GET: api/HoleNummerDefinitionÜberBezeichnung/"xyz"
+        // GET: api/HoleNummerDefinitionÜberBezeichnung/xyz
         [HttpGet("HoleNummerDefinitionÜberBezeichnung/{bezeichnung}")]
-        public async Task<ActionResult<NummerDefinition>> HoleNummerDefinitionÜberBezeichnung(string  bezeichnung)
+        public async Task<ActionResult<NummerDefinition>> HoleNummerDefinitionÜberBezeichnung(string bezeichnung)
         {
-            var tmp = this._context.NummerDefinition.Include(e => e.NummerDefinitionQuellen.ToList());
-            NummerDefinition nummerDefinition = await this._context.NummerDefinition.Where(e => (e.NummerDefinitionBezeichnung == bezeichnung)).FirstOrDefaultAsync();
+            NummerDefinition nummerDefinition = await this._context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.NummerDefinitionBezeichnung == bezeichnung)).FirstOrDefaultAsync();
 
 
             if (nummerDefinition == null)
@@ -122,9 +120,8 @@
         public async Task<ActionResult<Guid?>> ErstelleNummerInformation(ErstelleNummerInformation erstelleNummerInformation)
         {
             Guid? guid = null;
-            var tmp = await this._context.NummerDefinition.Include(e => e.NummerDefinitionQuellen).ToListAsync();
 
-            NummerDefinition foundNummerDefinition = this._context.NummerDefinition.Where(e => (e.NummerDefinitionId == erstelleNummerInformation.Nummer_definition_id)).FirstOrDefault();
+            NummerDefinition foundNummerDefinition = this._context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.NummerDefinitionId == erstelleNummerInformation.Nummer_definition_id)).FirstOrDefault();
             if (foundNummerDefinition == null)
             {
                 throw new Exception(string.Format("für die nummer_definition_id = '{0}' existiert keine gültig Nummerdefinition.", erstelleNummerInformation.Nummer_definition_id));
@@ -137,17 +134,17 @@
             {
                 throw new Exception("Die Anzahl der definierten Quellen stimmt nicht mit der Anzahl der übergebenen Quellen überein.");
             }
-            else if (erstelleNummerInformation.Ziel == null)
-            {
-                throw new Exception("Das Ziel ist null.");
-            }
+            //else if (erstelleNummerInformation.Ziel == null)
+            //{
+            //    throw new Exception("Das Ziel ist null.");
+            //}
             else
             {
                 NummerInformation nummerInformation = new NummerInformation();
                 nummerInformation.NummerDefinitionId = erstelleNummerInformation.Nummer_definition_id;
                 string jsonQuellen = NumberInformationJSONGenerator.GenerateJSON(foundNummerDefinition.NummerDefinitionQuellen, erstelleNummerInformation.Quellen);
                 nummerInformation.NnmmerInformationQuelle = jsonQuellen;
-                nummerInformation.NummerInformationZiel = erstelleNummerInformation.Ziel.ToString();
+                nummerInformation.NummerInformationZiel = erstelleNummerInformation.Ziel != null ? erstelleNummerInformation.Ziel.ToString() : null;
 
                 this._context.NummerInformation.Add(nummerInformation);
                 await this._context.SaveChangesAsync();
@@ -177,9 +174,8 @@
         public async Task<ActionResult<NummerInformation>> HoleNummerInformation(HoleNummerInformation holeNummerInformation)
         {
             NummerInformation nummerInformation = null;
-            var tmp = await this._context.NummerDefinition.Include(e => e.NummerDefinitionQuellen).ToListAsync();
 
-            NummerDefinition foundNummerDefinition = this._context.NummerDefinition.Where(e => (e.NummerDefinitionId == holeNummerInformation.Nummer_definition_id)).FirstOrDefault();
+            NummerDefinition foundNummerDefinition = this._context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.NummerDefinitionId == holeNummerInformation.Nummer_definition_id)).FirstOrDefault();
             if (foundNummerDefinition == null)
             {
                 throw new Exception(string.Format("für die nummer_definition_id = '{0}' existiert keine gültig Nummerdefinition.", holeNummerInformation.Nummer_definition_id));
@@ -207,6 +203,73 @@
                     return this.NotFound();
                 }
             }
+        }
+        // Put: api/Nummern/SetzeZielFürNummerInformation
+        [HttpPut("SetzeZielFürNummerInformation")]
+        public async Task<ActionResult<NummerInformation>> SetzeZielFürNummerInformation(SetzeZielFürNummerInformation setzeZielFürNummerInformation)
+        {
+            NummerInformation nummerInformation = null;
+
+            if (setzeZielFürNummerInformation == null)
+            {
+                throw new ArgumentNullException(nameof(setzeZielFürNummerInformation));
+            }
+
+            if (setzeZielFürNummerInformation.NummerInformationGuid == null)
+            {
+                throw new ArgumentNullException(nameof(setzeZielFürNummerInformation.NummerInformationGuid));
+            }
+
+            if (setzeZielFürNummerInformation.Ziel == null)
+            {
+                throw new ArgumentNullException(nameof(setzeZielFürNummerInformation.Ziel));
+            }
+            else
+            {
+                Guid guid = (Guid)setzeZielFürNummerInformation.NummerInformationGuid;
+                try
+                {
+                    var xxx = await _context.NummerInformation.ToListAsync();
+
+                    nummerInformation = await this._context.NummerInformation.Where(e => ( e.NummerInformationGuid != null && e.NummerInformationGuid.ToString() == guid.ToString())).FirstOrDefaultAsync();
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                if (nummerInformation == null)
+                {
+                    return NotFound();
+
+                }
+                else
+                {
+                    string ziel = setzeZielFürNummerInformation.Ziel.ToString();
+                        nummerInformation.NummerInformationZiel = ziel;
+                        _context.Entry(nummerInformation).State = EntityState.Modified;
+                        try
+                        {
+                            await this._context.SaveChangesAsync();
+                            return Ok(nummerInformation);
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            return StatusCode((int)HttpStatusCode.InternalServerError);
+                        }
+
+
+
+
+
+                }
+
+
+
+
+            }
+
         }
     }
 }
