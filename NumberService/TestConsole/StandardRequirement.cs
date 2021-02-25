@@ -51,12 +51,12 @@ namespace TestConsole
             set { _ErstellteNummerDefinition = value; }
 
         }
-        private Guid? _NummerInformationGuid;
+        private Guid? _BonsaiTransferGuid;
 
-        public Guid? NummerInformationGuid
+        public Guid? BonsaiTransferGuid
         {
-            get { return _NummerInformationGuid; }
-            set { _NummerInformationGuid = value; }
+            get { return _BonsaiTransferGuid; }
+            set { _BonsaiTransferGuid = value; }
         }
         private long _DeuWoAuftragsnummer;
 
@@ -65,11 +65,18 @@ namespace TestConsole
             get { return _DeuWoAuftragsnummer; }
             set { _DeuWoAuftragsnummer = value; }
         }
+        private long _GemasAuftragsnummer;
+
+        public long GemasAuftragsnummer
+        {
+            get { return _GemasAuftragsnummer; }
+            set { _GemasAuftragsnummer = value; }
+        }
 
 
 
 
-        public  async Task<bool> PrüfeUndErstelleNummerDefinition()
+        public async Task<bool> PrüfeUndErstelleNummerDefinition()
         {
             string bezeichnung = NumberDefinitionBezeichnung.DEUWOAuftragsnummerZuGEMASAuftragsnummer.ToString();
             bool existiert = await StandardRequirement.Instance.PrüfeExistenzNummerDefinitionAsync(bezeichnung);
@@ -164,27 +171,27 @@ namespace TestConsole
 
         public async Task<Guid?> ErstelleNummerInformationAsync()
         {
-            Guid? guid = StandardRequirement.Instance.NummerInformationGuid;
+            Guid? guid = StandardRequirement.Instance.BonsaiTransferGuid;
 
 
             if (!guid.HasValue && StandardRequirement.Instance.ErstellteNummerDefinition != null)
             {
-                long auftragsnummer = Common.Helpers.Random_Helper.GetLong(0, 10000);
+                long deuWoauftragsnummer = Common.Helpers.Random_Helper.GetLong(0, 10000);
 
                 using (var httpClient = new HttpClient())
                 {
-                    ErstelleNummerInformation erstelleNummerInformation = LieferErstelleNummerInformation(auftragsnummer);
+                    ErstelleNummerInformation erstelleNummerInformation = LieferErstelleNummerInformation(deuWoauftragsnummer);
                     StringContent content = new StringContent(JsonConvert.SerializeObject(erstelleNummerInformation), Encoding.UTF8, "application/json");
                     using (HttpResponseMessage response = await httpClient.PostAsync(BaseAPIURL + "ErstelleNummerInformation/", content))
                     {
                         if (response.IsSuccessStatusCode)
                         {
                             string apiResponse = await response.Content.ReadAsStringAsync();
-                            StandardRequirement.Instance.NummerInformationGuid = JsonConvert.DeserializeObject<Guid>(apiResponse);
-                            if (StandardRequirement.Instance.NummerInformationGuid.HasValue)
+                            StandardRequirement.Instance.BonsaiTransferGuid = JsonConvert.DeserializeObject<Guid>(apiResponse);
+                            if (StandardRequirement.Instance.BonsaiTransferGuid.HasValue)
                             {
-                                guid = StandardRequirement.Instance.NummerInformationGuid;
-                                StandardRequirement.Instance.DeuWoAuftragsnummer = auftragsnummer;
+                                guid = StandardRequirement.Instance.BonsaiTransferGuid;
+                                StandardRequirement.Instance.DeuWoAuftragsnummer = deuWoauftragsnummer;
                             }
                         }
                     }
@@ -202,6 +209,49 @@ namespace TestConsole
                 erstelleNummerInformation.Quellen = new object[] { auftragsnummer };
             }
             return erstelleNummerInformation;
+
+        }
+        public async Task<bool> SetzeZielFürNummerInformation()
+        {
+            bool success = false;
+            Guid? guid = StandardRequirement.Instance.BonsaiTransferGuid;
+
+
+            if (guid.HasValue && StandardRequirement.Instance.ErstellteNummerDefinition != null)
+            {
+                long gemasauftragsnummer = Common.Helpers.Random_Helper.GetLong(0, 10000);
+
+                using (var httpClient = new HttpClient())
+                {
+                    SetzeZielFürNummerInformation setzeZielFürNummerInformation = LieferSetzeZielFürNummerInformation(guid,gemasauftragsnummer);
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(setzeZielFürNummerInformation), Encoding.UTF8, "application/json");
+                    using (HttpResponseMessage response = await httpClient.PostAsync(BaseAPIURL + "SetzeZielFürNummerInformation/", content))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            NummerInformation nummerInformation = JsonConvert.DeserializeObject<NummerInformation>(apiResponse);
+                            if(nummerInformation != null && nummerInformation.NummerInformationZiel == gemasauftragsnummer.ToString())
+                            StandardRequirement.Instance.GemasAuftragsnummer = gemasauftragsnummer;
+                            success = true;
+                        }
+                    }
+                }
+
+            }
+
+
+            return success;
+        }
+        public static SetzeZielFürNummerInformation LieferSetzeZielFürNummerInformation(Guid? nummerInformationGuid, long auftragsnummer)
+        {
+
+
+            SetzeZielFürNummerInformation setzeZielFürNummerInformation = new SetzeZielFürNummerInformation();
+            setzeZielFürNummerInformation.NummerInformationGuid = nummerInformationGuid.Value;
+            setzeZielFürNummerInformation.Ziel = auftragsnummer;
+
+            return setzeZielFürNummerInformation;
 
         }
 

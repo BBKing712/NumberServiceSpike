@@ -23,7 +23,10 @@ namespace TestConsole
             if(existiert)
             {
                 Guid? guid = await StandardRequirement.Instance.ErstelleNummerInformationAsync();
-                var xxx = "xxx";
+                if(guid.HasValue)
+                {
+                    bool success= await StandardRequirement.Instance.SetzeZielFürNummerInformation();
+                }
             }
         }
 

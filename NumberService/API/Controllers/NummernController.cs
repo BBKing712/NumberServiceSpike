@@ -227,17 +227,7 @@
             else
             {
                 Guid guid = (Guid)setzeZielFürNummerInformation.NummerInformationGuid;
-                try
-                {
-                    var xxx = await _context.NummerInformation.ToListAsync();
-
-                    nummerInformation = await this._context.NummerInformation.Where(e => ( e.NummerInformationGuid != null && e.NummerInformationGuid.ToString() == guid.ToString())).FirstOrDefaultAsync();
-
-                }
-                catch (Exception ex)
-                {
-
-                }
+                nummerInformation = await this._context.NummerInformation.Where(e => (e.NummerInformationGuid != null && e.NummerInformationGuid.ToString() == guid.ToString())).FirstOrDefaultAsync();
 
                 if (nummerInformation == null)
                 {
