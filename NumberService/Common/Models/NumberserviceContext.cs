@@ -137,7 +137,6 @@
                     .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.NummerInformationZiel)
-                    .IsRequired()
                     .HasColumnName("nummer_information_ziel");
 
                 entity.HasOne(d => d.NummerDefinition)

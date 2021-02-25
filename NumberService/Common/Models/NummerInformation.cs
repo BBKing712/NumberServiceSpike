@@ -12,7 +12,7 @@
 
         public string NnmmerInformationQuelle { get; set; }
 
-        public string NummerInformationZiel { get; set; }
+        public string? NummerInformationZiel { get; set; }
 
         public virtual NummerDefinition NummerDefinition { get; set; }
     }
