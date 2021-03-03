@@ -76,7 +76,7 @@ namespace TestConsole
 
 
 
-        public async Task<bool> PrüfeUndErstelleNummerDefinition()
+        public async Task<bool> PrüfeUndErstelleNummerDefinitionAsync()
         {
             string bezeichnung = NumberDefinitionBezeichnung.DEUWOAuftragsnummerZuGEMASAuftragsnummer.ToString();
             bool existiert = await StandardRequirement.Instance.PrüfeExistenzNummerDefinitionAsync(bezeichnung);
@@ -211,7 +211,7 @@ namespace TestConsole
             return erstelleNummerInformation;
 
         }
-        public async Task<bool> SetzeZielFürNummerInformation()
+        public async Task<bool> SetzeZielFürNummerInformationAsync()
         {
             bool success = false;
             Guid? guid = StandardRequirement.Instance.BonsaiTransferGuid;
@@ -225,15 +225,17 @@ namespace TestConsole
                 {
                     SetzeZielFürNummerInformation setzeZielFürNummerInformation = LieferSetzeZielFürNummerInformation(guid,gemasauftragsnummer);
                     StringContent content = new StringContent(JsonConvert.SerializeObject(setzeZielFürNummerInformation), Encoding.UTF8, "application/json");
-                    using (HttpResponseMessage response = await httpClient.PostAsync(BaseAPIURL + "SetzeZielFürNummerInformation/", content))
+                    using (HttpResponseMessage response = await httpClient.PutAsync(BaseAPIURL + "SetzeZielFürNummerInformation/", content))
                     {
                         if (response.IsSuccessStatusCode)
                         {
                             string apiResponse = await response.Content.ReadAsStringAsync();
                             NummerInformation nummerInformation = JsonConvert.DeserializeObject<NummerInformation>(apiResponse);
                             if(nummerInformation != null && nummerInformation.NummerInformationZiel == gemasauftragsnummer.ToString())
-                            StandardRequirement.Instance.GemasAuftragsnummer = gemasauftragsnummer;
-                            success = true;
+                            {
+                                StandardRequirement.Instance.GemasAuftragsnummer = gemasauftragsnummer;
+                                success = true;
+                            }
                         }
                     }
                 }
@@ -252,6 +254,27 @@ namespace TestConsole
             setzeZielFürNummerInformation.Ziel = auftragsnummer;
 
             return setzeZielFürNummerInformation;
+
+        }
+        public async Task<NummerInformation> HoleNummerInformationAsync()
+        {
+            NummerInformation nummerInformation = null;
+            HoleNummerInformation holeNummerInformation = new HoleNummerInformation();
+            holeNummerInformation.Nummer_definition_id = StandardRequirement.Instance.NummerDefinition.NummerDefinitionId;
+            holeNummerInformation.Quellen = new object[] { StandardRequirement.Instance.DeuWoAuftragsnummer };
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(holeNummerInformation), Encoding.UTF8, "application/json");
+                using (HttpResponseMessage response = await httpClient.PostAsync(BaseAPIURL + "HoleNummerInformation/", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        nummerInformation = JsonConvert.DeserializeObject<NummerInformation>(apiResponse);
+                    }
+                }
+            }
+            return nummerInformation;
 
         }
 

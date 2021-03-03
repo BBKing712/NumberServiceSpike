@@ -139,11 +139,11 @@
                 entity.Property(e => e.NummerInformationZiel)
                     .HasColumnName("nummer_information_ziel");
 
-                entity.HasOne(d => d.NummerDefinition)
-                    .WithMany(p => p.NummerInformationen)
-                    .HasForeignKey(d => d.NummerDefinitionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_nummer_information_nummer_definition");
+                //entity.HasOne(d => d.NummerDefinition)
+                //    .WithMany(p => p.NummerInformationen)
+                //    .HasForeignKey(d => d.NummerDefinitionId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_nummer_information_nummer_definition");
             });
 
             this.OnModelCreatingPartial(modelBuilder);

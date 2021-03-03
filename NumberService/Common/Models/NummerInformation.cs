@@ -14,6 +14,6 @@
 
         public string? NummerInformationZiel { get; set; }
 
-        public virtual NummerDefinition NummerDefinition { get; set; }
+        //public virtual NummerDefinition NummerDefinition { get; set; }
     }
 }

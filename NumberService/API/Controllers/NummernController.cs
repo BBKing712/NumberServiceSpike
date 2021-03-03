@@ -196,7 +196,14 @@
                 if (nummerInformations != null && nummerInformations.Count > 0)
                 {
                     nummerInformation = nummerInformations.FirstOrDefault();
-                    return nummerInformation;
+                    if(nummerInformation != null)
+                    {
+                        return nummerInformation;
+                    }
+                    else
+                    {
+                        return this.NotFound();
+                    }
                 }
                 else
                 {

@@ -19,13 +19,17 @@ namespace TestConsole
         static async Task  Main(string[] args)
         {
 
-            bool existiert = await StandardRequirement.Instance.PrüfeUndErstelleNummerDefinition();
+            bool existiert = await StandardRequirement.Instance.PrüfeUndErstelleNummerDefinitionAsync();
             if(existiert)
             {
                 Guid? guid = await StandardRequirement.Instance.ErstelleNummerInformationAsync();
                 if(guid.HasValue)
                 {
-                    bool success= await StandardRequirement.Instance.SetzeZielFürNummerInformation();
+                    bool success= await StandardRequirement.Instance.SetzeZielFürNummerInformationAsync();
+                    if(success)
+                    {
+                        NummerInformation nummerInformation = await StandardRequirement.Instance.HoleNummerInformationAsync();
+                    }
                 }
             }
         }
