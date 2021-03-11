@@ -32,6 +32,8 @@ namespace TestConsole
                     }
                 }
             }
+            MassTest massTest = new MassTest();
+            MassTestResult massTestResult = await massTest.RunAsync();
         }
 
 
