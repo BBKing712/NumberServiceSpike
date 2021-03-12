@@ -7,6 +7,7 @@
     using System.Net;
     using System.Threading.Tasks;
     using API.Helpers;
+    using Common.Helpers;
     using Common.Models;
     using Common.Requests;
     using Common.Responses;
@@ -51,9 +52,9 @@
 
             return nummerDefinition;
         }
-        // GET: api/HoleNummerDefinitionÜberBezeichnung/xyz
-        [HttpGet("HoleNummerDefinitionÜberBezeichnung/{bezeichnung}")]
-        public async Task<ActionResult<NummerDefinition>> HoleNummerDefinitionÜberBezeichnung(string bezeichnung)
+        // GET: api/HoleNummerDefinitionUeberBezeichnung/xyz
+        [HttpGet("HoleNummerDefinitionUeberBezeichnung/{bezeichnung}")]
+        public async Task<ActionResult<NummerDefinition>> HoleNummerDefinitionUeberBezeichnung(string bezeichnung)
         {
             NummerDefinition nummerDefinition = await this._context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.NummerDefinitionBezeichnung == bezeichnung)).FirstOrDefaultAsync();
 
@@ -268,5 +269,58 @@
             }
 
         }
+        // GET: api/HoleNummerInformationZielUeberGuid/424B434E-0BB8-4839-B8C3-15F00A31F66E
+        [HttpGet("HoleNummerInformationZielUeberGuid/{guid}")]
+        public async Task<ActionResult<object>> HoleNummerInformationZielUeberGuid(Guid guid)
+        {
+            object ziel = null;
+
+            NummerInformation nummerInformation = await this._context.NummerInformation.Where(e => (e.NummerInformationGuid == guid)).FirstOrDefaultAsync();
+
+
+            if (nummerInformation != null && nummerInformation.NummerInformationZiel != null)
+            {
+                NummerDefinition nummerDefinition = await this._context.NummerDefinition.Where(e => e.NummerDefinitionId == nummerInformation.NummerDefinitionId).FirstOrDefaultAsync();
+                if(nummerDefinition != null)
+                {
+                    switch (nummerDefinition.NummerDefinitionZielDatentypId)
+                    {
+                        case 1:
+
+                            ziel = nummerInformation.NummerInformationZiel;
+                            break;
+                        case 2:
+                            Int32 output2 = 0;
+                            if (Int32.TryParse(nummerInformation.NummerInformationZiel, out output2))
+                            {
+                                ziel = output2;
+                            }
+
+                            break;
+                        case 3:
+                            Guid output3 = Guid.NewGuid();
+                            if (Guid.TryParse(nummerInformation.NummerInformationZiel, out output3))
+                            {
+                                ziel = output3;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+
+            }
+            if(ziel == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return ziel;
+            }
+        }
+
+
     }
 }

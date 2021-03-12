@@ -101,7 +101,7 @@ namespace TestConsole
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (HttpResponseMessage response = await httpClient.GetAsync(BaseAPIURL + "HoleNummerDefinitionÜberBezeichnung/" + bezeichnung))
+                    using (HttpResponseMessage response = await httpClient.GetAsync(BaseAPIURL + "HoleNummerDefinitionUeberBezeichnung/" + bezeichnung))
                     {
                         if (response.IsSuccessStatusCode)
                         {

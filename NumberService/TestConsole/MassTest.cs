@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestConsole
 {
@@ -53,10 +54,9 @@ namespace TestConsole
                         if(success)
                         {
                             MassTestMeasure massTestMeasure = new MassTestMeasure();
-                            //var sql = "SELECT COUNT(*) FROM dbo.nummer_information";
-                            //var total = context.Database.SqlQuery<int>(sql).Single();
-                            //massTestMeasure.CountOfInformations = this._context.Database.FromSqlRaw<int>(sql).Single();
+                            massTestMeasure.CountOfInformations = await this._context.NummerInformation.CountAsync();
                             massTestMeasure.Start = DateTime.Now;
+                            object ziel = "";
                         }
                     }
                 }
@@ -233,6 +233,28 @@ namespace TestConsole
 
             return success;
         }
+        public async Task<NummerInformation> HoleNummerInformationAsync(NummerDefinition nummerDefinition,  Guid? guid)
+        {
+            NummerInformation nummerInformation = null;
+            HoleNummerInformation holeNummerInformation = new HoleNummerInformation();
+            holeNummerInformation.Nummer_definition_id = StandardRequirement.Instance.NummerDefinition.NummerDefinitionId;
+            holeNummerInformation.Quellen = new object[] { StandardRequirement.Instance.DeuWoAuftragsnummer };
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(holeNummerInformation), Encoding.UTF8, "application/json");
+                using (HttpResponseMessage response = await httpClient.PostAsync(BaseAPIURL + "HoleNummerInformation/", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        nummerInformation = JsonConvert.DeserializeObject<NummerInformation>(apiResponse);
+                    }
+                }
+            }
+            return nummerInformation;
+
+        }
+
 
 
 
