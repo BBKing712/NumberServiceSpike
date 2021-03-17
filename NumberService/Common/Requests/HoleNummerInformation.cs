@@ -8,6 +8,10 @@
         public long Nummer_definition_id { get; set; }
 
         [DataMember]
+        public bool DurchQuellen { get; set; }
+        [DataMember]
         public object[] Quellen { get; set; }
+        [DataMember]
+        public object Ziel { get; set; }
     }
 }

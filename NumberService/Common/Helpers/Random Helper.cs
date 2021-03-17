@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Common.Helpers
@@ -17,6 +18,25 @@ namespace Common.Helpers
             result = result | (long)rand.Next((Int32)min, (Int32)max);
             return result;
 
+        }
+        static int GetInteger(int min, int max)
+        {
+            Random random = new Random();
+            return random.Next(min, max);
+
+        }
+        public static string GetString(int minlength, int maxlength, bool allowNumerics)
+        {
+                int length = Random_Helper.GetInteger(minlength, maxlength);
+            Random random = new Random();
+
+             string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            if(allowNumerics)
+            {
+                chars = chars + "0123456789";
+            }
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

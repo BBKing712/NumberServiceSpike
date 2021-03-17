@@ -35,6 +35,8 @@ namespace TestConsole
                 ErstellteNummerDefinition erstellteNummerDefinition = await ErstelleNummerDefinitionAsync(nummerDefinition);
                 if (erstellteNummerDefinition != null)
                 {
+                    nummerDefinition.NummerDefinitionGuid = erstellteNummerDefinition.Guid;
+                    nummerDefinition.NummerDefinitionId = erstellteNummerDefinition.Id;
                     nummerDefinitionen.Add(nummerDefinition);
                 }
             }
@@ -56,7 +58,12 @@ namespace TestConsole
                             MassTestMeasure massTestMeasure = new MassTestMeasure();
                             massTestMeasure.CountOfInformations = await this._context.NummerInformation.CountAsync();
                             massTestMeasure.Start = DateTime.Now;
-                            object ziel = "";
+                            NummerInformation nummerInformation = await HoleNummerInformationAsync(nummerDefinition, erstelleNummerInformation);
+                            if(nummerInformation != null && nummerInformation.NummerInformationZiel.ToString() == setzeZielFürNummerInformation.Ziel.ToString())
+                            {
+                                massTestMeasure.End = DateTime.Now;
+                                massTestResult.MassTestMeasures.Add(massTestMeasure);
+                            }
                         }
                     }
                 }
@@ -80,7 +87,7 @@ namespace TestConsole
             for (long i = 1L; i < length; i++)
             {
                 NummerDefinitionQuelle nummerDefinitionQuelle = new NummerDefinitionQuelle();
-                nummerDefinitionQuelle.NummerDefinitionQuelleBezeichnung = Guid.NewGuid().ToString();
+                nummerDefinitionQuelle.NummerDefinitionQuelleBezeichnung = Random_Helper.GetString(1,20,false);
                 nummerDefinitionQuelle.NummerDefinitionQuelleDatentypId = (long)Random_Helper.GetLong((long)Datentyp.String, (long)Datentyp.Guid);
                 nummerDefinition.NummerDefinitionQuellen.Add(nummerDefinitionQuelle);
             }
@@ -153,8 +160,6 @@ namespace TestConsole
             Guid? guid = null;
 
 
-            if (!guid.HasValue)
-            {
 
                 using (var httpClient = new HttpClient())
                 {
@@ -169,7 +174,6 @@ namespace TestConsole
                     }
                 }
 
-            }
             return guid;
         }
         private static SetzeZielFürNummerInformation ErstelleSetzeZielFürNummerInformation(Guid? guid, NummerDefinition nummerDefinition)
@@ -187,11 +191,14 @@ namespace TestConsole
                         ziel = Random_Helper.GetLong(0L, 100000L);
                         break;
                     case Datentyp.Guid:
-                        ziel = Guid.NewGuid().ToString();
+                        ziel = Guid.NewGuid();
                         break;
                     default:
                         break;
                 }
+                setzeZielFürNummerInformation = new SetzeZielFürNummerInformation();
+                setzeZielFürNummerInformation.NummerInformationGuid = guid.Value;
+                setzeZielFürNummerInformation.Ziel = ziel;
 
             }
 
@@ -233,12 +240,13 @@ namespace TestConsole
 
             return success;
         }
-        public async Task<NummerInformation> HoleNummerInformationAsync(NummerDefinition nummerDefinition,  Guid? guid)
+        public async Task<NummerInformation> HoleNummerInformationAsync(NummerDefinition nummerDefinition, ErstelleNummerInformation erstelleNummerInformation)
         {
             NummerInformation nummerInformation = null;
             HoleNummerInformation holeNummerInformation = new HoleNummerInformation();
-            holeNummerInformation.Nummer_definition_id = StandardRequirement.Instance.NummerDefinition.NummerDefinitionId;
-            holeNummerInformation.Quellen = new object[] { StandardRequirement.Instance.DeuWoAuftragsnummer };
+            holeNummerInformation.Nummer_definition_id = nummerDefinition.NummerDefinitionId;
+            holeNummerInformation.DurchQuellen = true;
+            holeNummerInformation.Quellen = erstelleNummerInformation.Quellen;
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(holeNummerInformation), Encoding.UTF8, "application/json");

@@ -28,12 +28,14 @@ namespace TestConsole
                     bool success= await StandardRequirement.Instance.SetzeZielFürNummerInformationAsync();
                     if(success)
                     {
-                        NummerInformation nummerInformation = await StandardRequirement.Instance.HoleNummerInformationAsync();
+                        NummerInformation nummerInformation1 = await StandardRequirement.Instance.HoleNummerInformationAsync(true);
+                        NummerInformation nummerInformation2 = await StandardRequirement.Instance.HoleNummerInformationAsync(false);
                     }
                 }
             }
             MassTest massTest = new MassTest();
             MassTestResult massTestResult = await massTest.RunAsync();
+            var xxx = "xxx";
         }
 
 

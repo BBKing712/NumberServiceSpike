@@ -256,12 +256,21 @@ namespace TestConsole
             return setzeZielFürNummerInformation;
 
         }
-        public async Task<NummerInformation> HoleNummerInformationAsync()
+        public async Task<NummerInformation> HoleNummerInformationAsync(bool durchQuellen)
         {
             NummerInformation nummerInformation = null;
             HoleNummerInformation holeNummerInformation = new HoleNummerInformation();
             holeNummerInformation.Nummer_definition_id = StandardRequirement.Instance.NummerDefinition.NummerDefinitionId;
-            holeNummerInformation.Quellen = new object[] { StandardRequirement.Instance.DeuWoAuftragsnummer };
+            if (durchQuellen)
+            {
+                holeNummerInformation.DurchQuellen = true;
+                holeNummerInformation.Quellen = new object[] { StandardRequirement.Instance.DeuWoAuftragsnummer };
+            }
+            else
+            {
+                holeNummerInformation.DurchQuellen = false;
+                holeNummerInformation.Ziel = StandardRequirement.Instance.GemasAuftragsnummer;
+            }
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(holeNummerInformation), Encoding.UTF8, "application/json");

@@ -88,6 +88,7 @@
             {
                 throw new Exception("der Werte für NummerDefinitionQuelleBezeichnung müssen eindeutig sein.");
             }
+            // TODO BK Bezeichnungen der Quellen müssen gültige JSON-Bezeichnungen sein(nicht mit Zahlen beginnen.)
 
             List<NummerDefinitionQuelle> nummerDefinitionQuelles = nummerDefinition.NummerDefinitionQuellen.ToList();
             nummerDefinition.NummerDefinitionQuellen.Clear();
@@ -181,25 +182,27 @@
             {
                 throw new Exception(string.Format("für die nummer_definition_id = '{0}' existiert keine gültig Nummerdefinition.", holeNummerInformation.Nummer_definition_id));
             }
-            else if (foundNummerDefinition.NummerDefinitionQuellen == null || foundNummerDefinition.NummerDefinitionQuellen.Count == 0)
+            else if (holeNummerInformation.DurchQuellen && (foundNummerDefinition.NummerDefinitionQuellen == null || foundNummerDefinition.NummerDefinitionQuellen.Count == 0))
             {
                 throw new Exception("Für die Nummerdefinition sind keine Quellen definiert.");
             }
-            else if (foundNummerDefinition.NummerDefinitionQuellen.Count != holeNummerInformation.Quellen.Count())
+            else if (holeNummerInformation.DurchQuellen && (foundNummerDefinition.NummerDefinitionQuellen.Count != holeNummerInformation.Quellen.Count()))
             {
                 throw new Exception("Die Anzahl der definierten Quellen stimmt nicht mit der Anzahl der übergebenen Quellen überein.");
             }
+            else if(!holeNummerInformation.DurchQuellen && holeNummerInformation.Ziel == null)
+            {
+                throw new ArgumentNullException(nameof(holeNummerInformation.Ziel));
+            }
             else
             {
-                // List<NummerInformation> NummerInformations = _context.NummerInformations.Where(e => e.NummerDefinitionId == holeNummerInformation.nummer_definition_id).ToList();
-                string rawSQL = NummerInformationRawSQLGenerator.GenersateRawSQL(holeNummerInformation.Nummer_definition_id, foundNummerDefinition.NummerDefinitionQuellen, holeNummerInformation.Quellen);
-                List<NummerInformation> nummerInformations = await this._context.NummerInformation.FromSqlRaw(rawSQL).ToListAsync();
-                if (nummerInformations != null && nummerInformations.Count > 0)
+                if(holeNummerInformation.DurchQuellen)
                 {
-                    nummerInformation = nummerInformations.FirstOrDefault();
-                    if(nummerInformation != null)
+                    string rawSQL = NummerInformationRawSQLGenerator.GenersateRawSQL(holeNummerInformation.Nummer_definition_id, foundNummerDefinition.NummerDefinitionQuellen, holeNummerInformation.Quellen);
+                    List<NummerInformation> nummerInformations = await this._context.NummerInformation.FromSqlRaw(rawSQL).ToListAsync();
+                    if (nummerInformations != null && nummerInformations.Count > 0)
                     {
-                        return nummerInformation;
+                        nummerInformation = nummerInformations.FirstOrDefault();
                     }
                     else
                     {
@@ -208,8 +211,19 @@
                 }
                 else
                 {
+                    string ziel = holeNummerInformation.Ziel.ToString();
+                     nummerInformation = await this._context.NummerInformation.Where(e => e.NummerDefinitionId == foundNummerDefinition.NummerDefinitionId && e.NummerInformationZiel == ziel).FirstOrDefaultAsync();
+
+                }
+                if (nummerInformation != null)
+                {
+                    return nummerInformation;
+                }
+                else
+                {
                     return this.NotFound();
                 }
+
             }
         }
         // Put: api/Nummern/SetzeZielFürNummerInformation
@@ -232,6 +246,7 @@
             {
                 throw new ArgumentNullException(nameof(setzeZielFürNummerInformation.Ziel));
             }
+            //TODO BK Ziel muss für jede Definition eindeutig sein.
             else
             {
                 Guid guid = (Guid)setzeZielFürNummerInformation.NummerInformationGuid;
