@@ -27,7 +27,7 @@ namespace TestConsole
             MassTestResult massTestResult = new MassTestResult();
             List<NummerDefinition> nummerDefinitionen = new List<NummerDefinition>();
             List<ErstelleNummerInformation> ErstelleNummerInformationen = new List<ErstelleNummerInformation>();
-            long countOfDefinitions = Random_Helper.GetLong(1L, 100L);
+            long countOfDefinitions = Random_Helper.GetLong(1L, 10L);
             massTestResult.CountOfDefinitions = countOfDefinitions;
             for (long i = 0; i < countOfDefinitions; i++)
             {
@@ -40,7 +40,7 @@ namespace TestConsole
                     nummerDefinitionen.Add(nummerDefinition);
                 }
             }
-            long countOfInformations = Random_Helper.GetLong(1L, 100L);
+            long countOfInformations = Random_Helper.GetLong(1L, 10L);
             massTestResult.CountOfInformations = countOfInformations;
             foreach (var nummerDefinition in nummerDefinitionen)
             {
@@ -62,6 +62,7 @@ namespace TestConsole
                             if(nummerInformation != null && nummerInformation.NummerInformationZiel.ToString() == setzeZielFürNummerInformation.Ziel.ToString())
                             {
                                 massTestMeasure.End = DateTime.Now;
+                                massTestMeasure.Milliseconds = (massTestMeasure.End - massTestMeasure.Start).TotalMilliseconds;
                                 massTestResult.MassTestMeasures.Add(massTestMeasure);
                             }
                         }

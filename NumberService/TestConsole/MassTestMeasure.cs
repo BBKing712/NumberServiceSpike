@@ -10,7 +10,7 @@ namespace TestConsole
 
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public long Milliseconds { get; set; }
+        public double Milliseconds { get; set; }
 
 
     }

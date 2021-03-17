@@ -35,7 +35,14 @@ namespace TestConsole
             }
             MassTest massTest = new MassTest();
             MassTestResult massTestResult = await massTest.RunAsync();
-            var xxx = "xxx";
+            var xxx = massTestResult.MassTestMeasures.Count;
+            var yyy = massTestResult.CountOfDefinitions * massTestResult.CountOfInformations;
+            var aaa = "aaa";
+            foreach (var item in massTestResult.MassTestMeasures)
+            {
+                Console.WriteLine($"{item.Milliseconds} Millsekunden bei {item.CountOfInformations} Einträgen.");
+            }
+            var bbb = "bbb";
         }
 
 
