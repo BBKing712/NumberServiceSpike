@@ -34,15 +34,16 @@ namespace TestConsole
                 }
             }
             MassTest massTest = new MassTest();
+            var aaa = "aaa";
             MassTestResult massTestResult = await massTest.RunAsync();
             var xxx = massTestResult.MassTestMeasures.Count;
             var yyy = massTestResult.CountOfDefinitions * massTestResult.CountOfInformations;
-            var aaa = "aaa";
+            var bbb = "bbb";
             foreach (var item in massTestResult.MassTestMeasures)
             {
                 Console.WriteLine($"{item.Milliseconds} Millsekunden bei {item.CountOfInformations} Einträgen.");
             }
-            var bbb = "bbb";
+            var ccc = "ccc";
         }
 
 

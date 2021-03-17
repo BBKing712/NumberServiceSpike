@@ -39,6 +39,10 @@ namespace TestConsole
                     nummerDefinition.NummerDefinitionId = erstellteNummerDefinition.Id;
                     nummerDefinitionen.Add(nummerDefinition);
                 }
+                else
+                {
+                    Console.WriteLine("NummerDefinition konnte nicht erstellt werden.");
+                }
             }
             long countOfInformations = Random_Helper.GetLong(1L, 10L);
             massTestResult.CountOfInformations = countOfInformations;
@@ -65,7 +69,15 @@ namespace TestConsole
                                 massTestMeasure.Milliseconds = (massTestMeasure.End - massTestMeasure.Start).TotalMilliseconds;
                                 massTestResult.MassTestMeasures.Add(massTestMeasure);
                             }
+                            else
+                            {
+                                Console.WriteLine("NummerInformation konnte nicht geholt werden.");
+                            }
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("NummerInformation konnte nicht erstellt werden.");
                     }
                 }
             }
