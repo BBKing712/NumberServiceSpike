@@ -34,7 +34,7 @@ namespace TestConsole
                     }
                 }
             }
-            long countOfMassTests = Random_Helper.GetLong(1L, 20L);
+            long countOfMassTests = Random_Helper.GetLong(1L, 2000L);
             for (long i = 0; i < countOfMassTests; i++)
             {
                 var aaa = await DoMassTestAsync();

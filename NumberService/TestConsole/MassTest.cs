@@ -41,7 +41,7 @@ namespace TestConsole
                 }
                 else
                 {
-                    Console.WriteLine("NummerDefinition konnte nicht erstellt werden.");
+                    WriteRedTextToConsole("NummerDefinition konnte nicht erstellt werden.");
                 }
             }
             long countOfInformations = Random_Helper.GetLong(1L, 30L);
@@ -71,13 +71,13 @@ namespace TestConsole
                             }
                             else
                             {
-                                Console.WriteLine("NummerInformation konnte nicht geholt werden.");
+                                WriteRedTextToConsole("NummerInformation konnte nicht geholt werden.");
                             }
                         }
                     }
                     else
                     {
-                        Console.WriteLine("NummerInformation konnte nicht erstellt werden.");
+                        WriteRedTextToConsole("NummerInformation konnte nicht erstellt werden.");
                     }
                 }
             }
@@ -86,6 +86,13 @@ namespace TestConsole
 
             return massTestResult;
 
+        }
+        private static void WriteRedTextToConsole(string text)
+        {
+            ConsoleColor currentForeground = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(text);
+            Console.ForegroundColor = currentForeground;
         }
         private static NummerDefinition CreateRandomNummerDefinition()
         {
