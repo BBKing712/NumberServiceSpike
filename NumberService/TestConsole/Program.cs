@@ -34,7 +34,7 @@ namespace TestConsole
                     }
                 }
             }
-            long countOfMassTests = Random_Helper.GetLong(1L, 2000L);
+            long countOfMassTests = Random_Helper.GetLong(1L, 4000L);
             for (long i = 0; i < countOfMassTests; i++)
             {
                 var aaa = await DoMassTestAsync();
@@ -47,7 +47,7 @@ namespace TestConsole
 
             MassTest massTest = new MassTest();
             var aaa = "aaa";
-            MassTestResult massTestResult = await massTest.RunAsync();
+            MassTestResult massTestResult = await massTest.RunAsync(40L);
             var xxx = massTestResult.MassTestMeasures.Count;
             var yyy = massTestResult.CountOfDefinitions * massTestResult.CountOfInformations;
             var bbb = "bbb";

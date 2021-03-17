@@ -22,12 +22,12 @@ namespace TestConsole
             this._context = new NumberserviceContext();
         }
 
-        public  async Task<MassTestResult> RunAsync()
+        public  async Task<MassTestResult> RunAsync(long max)
         {
             MassTestResult massTestResult = new MassTestResult();
             List<NummerDefinition> nummerDefinitionen = new List<NummerDefinition>();
             List<ErstelleNummerInformation> ErstelleNummerInformationen = new List<ErstelleNummerInformation>();
-            long countOfDefinitions = Random_Helper.GetLong(1L, 30L);
+            long countOfDefinitions = Random_Helper.GetLong(1L, max);
             massTestResult.CountOfDefinitions = countOfDefinitions;
             for (long i = 0; i < countOfDefinitions; i++)
             {
@@ -44,7 +44,7 @@ namespace TestConsole
                     WriteRedTextToConsole("NummerDefinition konnte nicht erstellt werden.");
                 }
             }
-            long countOfInformations = Random_Helper.GetLong(1L, 30L);
+            long countOfInformations = Random_Helper.GetLong(1L, max);
             massTestResult.CountOfInformations = countOfInformations;
             foreach (var nummerDefinition in nummerDefinitionen)
             {
