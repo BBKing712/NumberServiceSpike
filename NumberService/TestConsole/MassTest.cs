@@ -104,10 +104,18 @@ namespace TestConsole
 
             ICollection<NummerDefinitionQuelle> nummerDefinitionQuellen = new List<NummerDefinitionQuelle>();
             long length = Random_Helper.GetLong(2L, 100L);
+            List<string> quellenBezeichnungen = new List<string>();
             for (long i = 1L; i < length; i++)
             {
                 NummerDefinitionQuelle nummerDefinitionQuelle = new NummerDefinitionQuelle();
-                nummerDefinitionQuelle.NummerDefinitionQuelleBezeichnung = Random_Helper.GetString(1,20,false);
+                string quelleBezeichnung = Random_Helper.GetString(1, 20, false);
+                do
+                {
+                    quelleBezeichnung = Random_Helper.GetString(1, 20, false);
+                } while (quellenBezeichnungen.Contains(quelleBezeichnung));
+
+                nummerDefinitionQuelle.NummerDefinitionQuelleBezeichnung = quelleBezeichnung;
+                quellenBezeichnungen.Add(quelleBezeichnung);
                 nummerDefinitionQuelle.NummerDefinitionQuelleDatentypId = (long)Random_Helper.GetLong((long)Datentyp.String, (long)Datentyp.Guid);
                 nummerDefinition.NummerDefinitionQuellen.Add(nummerDefinitionQuelle);
             }
@@ -119,8 +127,6 @@ namespace TestConsole
         {
             ErstellteNummerDefinition erstellteNummerDefinition = null;
 
-            if (erstellteNummerDefinition == null)
-            {
                 using (var httpClient = new HttpClient())
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(nummerDefinition), Encoding.UTF8, "application/json");
@@ -133,8 +139,6 @@ namespace TestConsole
                         }
                     }
                 }
-            }
-
             return erstellteNummerDefinition;
         }
         private static ErstelleNummerInformation CreateRandomErstelleNummerInformation(NummerDefinition nummerDefinition)
