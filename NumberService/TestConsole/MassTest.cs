@@ -27,7 +27,7 @@ namespace TestConsole
             MassTestResult massTestResult = new MassTestResult();
             List<NummerDefinition> nummerDefinitionen = new List<NummerDefinition>();
             List<ErstelleNummerInformation> ErstelleNummerInformationen = new List<ErstelleNummerInformation>();
-            long countOfDefinitions = Random_Helper.GetLong(1L, 10L);
+            long countOfDefinitions = Random_Helper.GetLong(1L, 30L);
             massTestResult.CountOfDefinitions = countOfDefinitions;
             for (long i = 0; i < countOfDefinitions; i++)
             {
@@ -44,7 +44,7 @@ namespace TestConsole
                     Console.WriteLine("NummerDefinition konnte nicht erstellt werden.");
                 }
             }
-            long countOfInformations = Random_Helper.GetLong(1L, 10L);
+            long countOfInformations = Random_Helper.GetLong(1L, 30L);
             massTestResult.CountOfInformations = countOfInformations;
             foreach (var nummerDefinition in nummerDefinitionen)
             {

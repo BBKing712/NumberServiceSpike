@@ -1,4 +1,5 @@
-﻿using Common.Models;
+﻿using Common.Helpers;
+using Common.Models;
 using Common.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -33,6 +34,17 @@ namespace TestConsole
                     }
                 }
             }
+            long countOfMassTests = Random_Helper.GetLong(1L, 20L);
+            for (long i = 0; i < countOfMassTests; i++)
+            {
+                var aaa = await DoMassTestAsync();
+            }
+
+        }
+        private static async Task<bool> DoMassTestAsync()
+        {
+            bool result = true;
+
             MassTest massTest = new MassTest();
             var aaa = "aaa";
             MassTestResult massTestResult = await massTest.RunAsync();
@@ -44,6 +56,8 @@ namespace TestConsole
                 Console.WriteLine($"{item.Milliseconds} Millsekunden bei {item.CountOfInformations} Einträgen.");
             }
             var ccc = "ccc";
+
+            return result;
         }
 
 
