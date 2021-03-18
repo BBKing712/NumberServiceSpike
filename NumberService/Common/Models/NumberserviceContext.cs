@@ -40,7 +40,7 @@
                     .HasName("unique_datentyp_bezeichnung")
                     .IsUnique();
 
-                entity.Property(e => e.DatentypId).HasColumnName("datentyp_id");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.DatentypBezeichnung)
                     .IsRequired()
@@ -56,7 +56,7 @@
                     .HasName("Unique_nummer_definition_bezeichnung")
                     .IsUnique();
 
-                entity.Property(e => e.NummerDefinitionId).HasColumnName("nummer_definition_id");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.NummerDefinitionBezeichnung)
                     .IsRequired()
@@ -97,7 +97,7 @@
                     .HasName("Unique_nummer_definition_quelle_pospernummer_definition_id")
                     .IsUnique();
 
-                entity.Property(e => e.NummerDefinitionQuelleId).HasColumnName("nummer_definition_quelle_id");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.NummerDefinitionId).HasColumnName("nummer_definition_id");
 
@@ -124,7 +124,7 @@
                 entity.HasIndex(e => e.NummerInformationGuid)
                     .HasName("Unique_nummer_information_guid");
 
-                entity.Property(e => e.NummerInformationId).HasColumnName("nummer_information_id");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.NnmmerInformationQuelle)
                     .IsRequired()

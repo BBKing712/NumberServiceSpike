@@ -111,7 +111,7 @@ namespace TestConsole
                             if (existiert)
                             {
                                 StandardRequirement.Instance.ErstellteNummerDefinition = new ErstellteNummerDefinition();
-                                StandardRequirement.Instance.ErstellteNummerDefinition.Id = StandardRequirement.Instance.NummerDefinition.NummerDefinitionId;
+                                StandardRequirement.Instance.ErstellteNummerDefinition.Id = StandardRequirement.Instance.NummerDefinition.ID;
                                 StandardRequirement.Instance.ErstellteNummerDefinition.Guid = StandardRequirement.Instance.NummerDefinition.NummerDefinitionGuid;
                                 StandardRequirement.Instance.ErstellteNummerDefinition.Bezeichnung = StandardRequirement.Instance.NummerDefinition.NummerDefinitionBezeichnung;
                                 StandardRequirement.Instance.ErstellteNummerDefinition.NummerDefinitionQuellen = StandardRequirement.Instance.NummerDefinition.NummerDefinitionQuellen.ToList();
@@ -260,7 +260,7 @@ namespace TestConsole
         {
             NummerInformation nummerInformation = null;
             HoleNummerInformation holeNummerInformation = new HoleNummerInformation();
-            holeNummerInformation.Nummer_definition_id = StandardRequirement.Instance.NummerDefinition.NummerDefinitionId;
+            holeNummerInformation.Nummer_definition_id = StandardRequirement.Instance.NummerDefinition.ID;
             if (durchQuellen)
             {
                 holeNummerInformation.DurchQuellen = true;

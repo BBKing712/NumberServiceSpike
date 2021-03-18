@@ -36,7 +36,7 @@ namespace TestConsole
                 if (erstellteNummerDefinition != null)
                 {
                     nummerDefinition.NummerDefinitionGuid = erstellteNummerDefinition.Guid;
-                    nummerDefinition.NummerDefinitionId = erstellteNummerDefinition.Id;
+                    nummerDefinition.ID = erstellteNummerDefinition.Id;
                     nummerDefinitionen.Add(nummerDefinition);
                 }
                 else
@@ -146,7 +146,7 @@ namespace TestConsole
             ErstelleNummerInformation erstelleNummerInformation = new ErstelleNummerInformation();
             if (nummerDefinition != null)
             {
-                erstelleNummerInformation.Nummer_definition_id = nummerDefinition.NummerDefinitionId;
+                erstelleNummerInformation.Nummer_definition_id = nummerDefinition.ID;
                 int anzahlQuellen = nummerDefinition.NummerDefinitionQuellen.Count;
                 object[] quellen = new object[anzahlQuellen];
                 int index = 0;
@@ -268,7 +268,7 @@ namespace TestConsole
         {
             NummerInformation nummerInformation = null;
             HoleNummerInformation holeNummerInformation = new HoleNummerInformation();
-            holeNummerInformation.Nummer_definition_id = nummerDefinition.NummerDefinitionId;
+            holeNummerInformation.Nummer_definition_id = nummerDefinition.ID;
             holeNummerInformation.DurchQuellen = true;
             holeNummerInformation.Quellen = erstelleNummerInformation.Quellen;
             using (var httpClient = new HttpClient())

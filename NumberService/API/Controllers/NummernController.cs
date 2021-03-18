@@ -43,7 +43,7 @@
         [HttpGet("HoleNummerDefinition/{id}")]
         public async Task<ActionResult<NummerDefinition>> HoleNummerDefinition(long id)
         {
-            var nummerDefinition = await _context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => e.NummerDefinitionId == id).FirstOrDefaultAsync();
+            var nummerDefinition = await _context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => e.ID == id).FirstOrDefaultAsync();
 
             if (nummerDefinition == null)
             {
@@ -105,12 +105,12 @@
                 nummerDefinitionQuelle.NummerDefinitionQuellePos = pos;
                 pos++;
                 this._context.NummerDefinitionQuelle.Add(nummerDefinitionQuelle);
-                nummerDefinitionQuelle.NummerDefinitionId = nummerDefinition.NummerDefinitionId;
+                nummerDefinitionQuelle.NummerDefinitionId = nummerDefinition.ID;
             }
 
             await this._context.SaveChangesAsync();
             ErstellteNummerDefinition erstellteNummerDefinition = new ErstellteNummerDefinition();
-            erstellteNummerDefinition.Id = nummerDefinition.NummerDefinitionId;
+            erstellteNummerDefinition.Id = nummerDefinition.ID;
             erstellteNummerDefinition.Guid = nummerDefinition.NummerDefinitionGuid;
             erstellteNummerDefinition.Bezeichnung = nummerDefinition.NummerDefinitionBezeichnung;
             erstellteNummerDefinition.NummerDefinitionQuellen = nummerDefinition.NummerDefinitionQuellen.ToList();
@@ -123,7 +123,7 @@
         {
             Guid? guid = null;
 
-            NummerDefinition foundNummerDefinition = this._context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.NummerDefinitionId == erstelleNummerInformation.Nummer_definition_id)).FirstOrDefault();
+            NummerDefinition foundNummerDefinition = this._context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.ID == erstelleNummerInformation.Nummer_definition_id)).FirstOrDefault();
             if (foundNummerDefinition == null)
             {
                 throw new Exception(string.Format("für die nummer_definition_id = '{0}' existiert keine gültig Nummerdefinition.", erstelleNummerInformation.Nummer_definition_id));
@@ -177,7 +177,7 @@
         {
             NummerInformation nummerInformation = null;
 
-            NummerDefinition foundNummerDefinition = this._context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.NummerDefinitionId == holeNummerInformation.Nummer_definition_id)).FirstOrDefault();
+            NummerDefinition foundNummerDefinition = this._context.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.ID == holeNummerInformation.Nummer_definition_id)).FirstOrDefault();
             if (foundNummerDefinition == null)
             {
                 throw new Exception(string.Format("für die nummer_definition_id = '{0}' existiert keine gültig Nummerdefinition.", holeNummerInformation.Nummer_definition_id));
@@ -212,7 +212,7 @@
                 else
                 {
                     string ziel = holeNummerInformation.Ziel.ToString();
-                     nummerInformation = await this._context.NummerInformation.Where(e => e.NummerDefinitionId == foundNummerDefinition.NummerDefinitionId && e.NummerInformationZiel == ziel).FirstOrDefaultAsync();
+                     nummerInformation = await this._context.NummerInformation.Where(e => e.NummerDefinitionId == foundNummerDefinition.ID && e.NummerInformationZiel == ziel).FirstOrDefaultAsync();
 
                 }
                 if (nummerInformation != null)
@@ -295,7 +295,7 @@
 
             if (nummerInformation != null && nummerInformation.NummerInformationZiel != null)
             {
-                NummerDefinition nummerDefinition = await this._context.NummerDefinition.Where(e => e.NummerDefinitionId == nummerInformation.NummerDefinitionId).FirstOrDefaultAsync();
+                NummerDefinition nummerDefinition = await this._context.NummerDefinition.Where(e => e.ID == nummerInformation.NummerDefinitionId).FirstOrDefaultAsync();
                 if(nummerDefinition != null)
                 {
                     switch (nummerDefinition.NummerDefinitionZielDatentypId)

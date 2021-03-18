@@ -11,7 +11,7 @@
             this.NummerDefinitionQuellen = new HashSet<NummerDefinitionQuelle>();
         }
 
-        public long DatentypId { get; set; }
+        public long ID { get; set; }
 
         public string DatentypBezeichnung { get; set; }
 

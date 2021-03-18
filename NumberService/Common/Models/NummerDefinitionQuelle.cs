@@ -2,7 +2,7 @@
 {
     public partial class NummerDefinitionQuelle
     {
-        public long NummerDefinitionQuelleId { get; set; }
+        public long ID { get; set; }
 
         public long NummerDefinitionId { get; set; }
 

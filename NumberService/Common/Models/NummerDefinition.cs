@@ -11,7 +11,7 @@
             this.NummerDefinitionQuellen = new HashSet<NummerDefinitionQuelle>();
         }
 
-        public long NummerDefinitionId { get; set; }
+        public long ID { get; set; }
 
         public Guid NummerDefinitionGuid { get; set; }
 

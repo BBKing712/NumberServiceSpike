@@ -4,7 +4,7 @@
 
     public partial class NummerInformation
     {
-        public long NummerInformationId { get; set; }
+        public long ID { get; set; }
 
         public Guid NummerInformationGuid { get; set; }
 
