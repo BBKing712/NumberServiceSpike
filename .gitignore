@@ -28,3 +28,11 @@
 /NumberService/TestConsole/bin/Debug/netcoreapp3.1/Microsoft.Extensions.Hosting.Abstractions.dll
 /NumberService/TestConsole/bin/Debug/netcoreapp3.1/Microsoft.Extensions.ObjectPool.dll
 /NumberService/TestConsole/bin/Debug/netcoreapp3.1/Microsoft.Net.Http.Headers.dll
+/NumberService/API/bin/Debug/netcoreapp3.1/Data.dll
+/NumberService/API/bin/Debug/netcoreapp3.1/Data.pdb
+/NumberService/Common/Requests/ErstelleNummerInformationRequest.cs
+/NumberService/Common/Requests/HoleNummerInformationRequest.cs
+/NumberService/Common/Requests/SetzeZielFürNummerInformationRequest.cs
+/NumberService/Common/Responses/ErstellteNummerDefinitionResponse.cs
+/NumberService/Common/obj/Debug/netcoreapp3.1/Common.csprojAssemblyReference.cache
+/NumberService/Data/obj/Debug/netcoreapp3.1/Data.csprojAssemblyReference.cache
