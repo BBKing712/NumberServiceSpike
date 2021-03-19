@@ -17,10 +17,10 @@ namespace Data.Models
         {
         }
 
-        public virtual DbSet<Datentypen> Datentypens { get; set; }
-        public virtual DbSet<Nummerdefinitionen> Nummerdefinitionens { get; set; }
-        public virtual DbSet<Nummerdefinitionquellen> Nummerdefinitionquellens { get; set; }
-        public virtual DbSet<Nummerinformationen> Nummerinformationens { get; set; }
+        public virtual DbSet<Datentypen> Datentypen { get; set; }
+        public virtual DbSet<Nummerdefinitionen> Nummerdefinitionen { get; set; }
+        public virtual DbSet<Nummerdefinitionquellen> Nummerdefinitionquellen { get; set; }
+        public virtual DbSet<Nummerinformationen> Nummerinformationen { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -45,11 +45,11 @@ namespace Data.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.CreatedAt)
+                entity.Property(e => e.ErstelltAm)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
 
-                entity.Property(e => e.UpdatedAt)
+                entity.Property(e => e.AktualisiertAm)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
             });
@@ -64,7 +64,7 @@ namespace Data.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.CreatedAt)
+                entity.Property(e => e.ErstelltAm)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
 
@@ -74,7 +74,7 @@ namespace Data.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.UpdatedAt)
+                entity.Property(e => e.AktualisiertAm)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
 
@@ -85,7 +85,7 @@ namespace Data.Models
                 entity.Property(e => e.ZielDatentypenId).HasColumnName("ZielDatentypenID");
 
                 entity.HasOne(d => d.ZielDatentypen)
-                    .WithMany(p => p.Nummerdefinitionens)
+                    .WithMany(p => p.Nummerdefinitionen)
                     .HasForeignKey(d => d.ZielDatentypenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Nummerdefinitionen__Datentypen_ID");
@@ -101,7 +101,7 @@ namespace Data.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.CreatedAt)
+                entity.Property(e => e.ErstelltAm)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
 
@@ -109,18 +109,18 @@ namespace Data.Models
 
                 entity.Property(e => e.NummerDefinitionenId).HasColumnName("NummerDefinitionenID");
 
-                entity.Property(e => e.UpdatedAt)
+                entity.Property(e => e.AktualisiertAm)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
 
                 entity.HasOne(d => d.Datentypen)
-                    .WithMany(p => p.Nummerdefinitionquellens)
+                    .WithMany(p => p.Nummerdefinitionquellen)
                     .HasForeignKey(d => d.DatentypenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Nummerdefinitionquellen_Datentypen_ID");
 
                 entity.HasOne(d => d.NummerDefinitionen)
-                    .WithMany(p => p.Nummerdefinitionquellens)
+                    .WithMany(p => p.Nummerdefinitionquellen)
                     .HasForeignKey(d => d.NummerDefinitionenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Nummerdefinitionquellen_Nummerdefinitionen_ID");
@@ -132,7 +132,7 @@ namespace Data.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CreatedAt)
+                entity.Property(e => e.ErstelltAm)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
 
@@ -142,12 +142,12 @@ namespace Data.Models
 
                 entity.Property(e => e.Quelle).IsRequired();
 
-                entity.Property(e => e.UpdatedAt)
+                entity.Property(e => e.AktualisiertAm)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
 
                 entity.HasOne(d => d.Nummerdefinition)
-                    .WithMany(p => p.Nummerinformationens)
+                    .WithMany(p => p.Nummerinformationen)
                     .HasForeignKey(d => d.NummerdefinitionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Nummerinformationen_NummerDefinitionen_ID");

@@ -12,8 +12,8 @@ namespace Data.Models
         public long Position { get; set; }
         public long DatentypenId { get; set; }
         public string Bezeichnung { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? ErstelltAm { get; set; }
+        public DateTime? AktualisiertAm { get; set; }
 
         public virtual Datentypen Datentypen { get; set; }
         public virtual Nummerdefinitionen NummerDefinitionen { get; set; }

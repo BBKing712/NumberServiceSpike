@@ -12,8 +12,8 @@ namespace Data.Models
         public long NummerdefinitionId { get; set; }
         public string Quelle { get; set; }
         public string Ziel { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? ErstelltAm { get; set; }
+        public DateTime AktualisiertAm { get; set; }
 
         public virtual Nummerdefinitionen Nummerdefinition { get; set; }
     }

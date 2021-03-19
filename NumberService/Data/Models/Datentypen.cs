@@ -9,16 +9,16 @@ namespace Data.Models
     {
         public Datentypen()
         {
-            Nummerdefinitionens = new HashSet<Nummerdefinitionen>();
-            Nummerdefinitionquellens = new HashSet<Nummerdefinitionquellen>();
+            Nummerdefinitionen = new HashSet<Nummerdefinitionen>();
+            Nummerdefinitionquellen = new HashSet<Nummerdefinitionquellen>();
         }
 
         public long Id { get; set; }
         public string Bezeichnung { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? ErstelltAm { get; set; }
+        public DateTime? AktualisiertAm { get; set; }
 
-        public virtual ICollection<Nummerdefinitionen> Nummerdefinitionens { get; set; }
-        public virtual ICollection<Nummerdefinitionquellen> Nummerdefinitionquellens { get; set; }
+        public virtual ICollection<Nummerdefinitionen> Nummerdefinitionen { get; set; }
+        public virtual ICollection<Nummerdefinitionquellen> Nummerdefinitionquellen { get; set; }
     }
 }
