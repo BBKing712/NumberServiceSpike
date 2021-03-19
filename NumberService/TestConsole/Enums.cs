@@ -11,7 +11,7 @@ namespace TestConsole
         DEUWOAuftragsnummerZuGEMASAuftragsnummer,
         High
     }
-    public enum Datentyp : long
+    public enum Datentypwerte : long
     {
         String = 1L,
         Integer = 2L,

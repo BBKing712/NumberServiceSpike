@@ -26,17 +26,17 @@ namespace TestConsole
         {
             MassTestResult massTestResult = new MassTestResult();
             List<NummerDefinition> nummerDefinitionen = new List<NummerDefinition>();
-            List<ErstelleNummerInformation> ErstelleNummerInformationen = new List<ErstelleNummerInformation>();
+            List<ErstelleNummerInformationRequest> erstelleNummerInformationRequests = new List<ErstelleNummerInformationRequest>();
             long countOfDefinitions = Random_Helper.GetLong(1L, max);
             massTestResult.CountOfDefinitions = countOfDefinitions;
             for (long i = 0; i < countOfDefinitions; i++)
             {
                 NummerDefinition nummerDefinition = CreateRandomNummerDefinition();
-                ErstellteNummerDefinition erstellteNummerDefinition = await ErstelleNummerDefinitionAsync(nummerDefinition);
-                if (erstellteNummerDefinition != null)
+                ErstellteNummerDefinitionResponse ErstellteNummerDefinitionResponse = await ErstelleNummerDefinitionAsync(nummerDefinition);
+                if (ErstellteNummerDefinitionResponse != null)
                 {
-                    nummerDefinition.NummerDefinitionGuid = erstellteNummerDefinition.Guid;
-                    nummerDefinition.ID = erstellteNummerDefinition.Id;
+                    nummerDefinition.NummerDefinitionGuid = ErstellteNummerDefinitionResponse.Guid;
+                    nummerDefinition.ID = ErstellteNummerDefinitionResponse.Id;
                     nummerDefinitionen.Add(nummerDefinition);
                 }
                 else
@@ -50,20 +50,20 @@ namespace TestConsole
             {
                 for (int i = 0; i < countOfInformations; i++)
                 {
-                    ErstelleNummerInformation erstelleNummerInformation = CreateRandomErstelleNummerInformation(nummerDefinition);
-                    Guid? guid = await ErstelleNummerInformationAsync(erstelleNummerInformation);
+                    ErstelleNummerInformationRequest erstelleNummerInformationRequest = CreateRandomErstelleNummerInformation(nummerDefinition);
+                    Guid? guid = await ErstelleNummerInformationAsync(erstelleNummerInformationRequest);
                     if(guid.HasValue)
                     {
-                        ErstelleNummerInformationen.Add(erstelleNummerInformation);
-                        SetzeZielFürNummerInformation setzeZielFürNummerInformation = ErstelleSetzeZielFürNummerInformation(guid, nummerDefinition);
-                        bool success = await SetzeZielFürNummerInformationAsync(setzeZielFürNummerInformation);
+                        erstelleNummerInformationRequests.Add(erstelleNummerInformationRequest);
+                        SetzeZielFürNummerInformationRequest setzeZielFürNummerInformationRequest = ErstelleSetzeZielFürNummerInformation(guid, nummerDefinition);
+                        bool success = await SetzeZielFürNummerInformationAsync(setzeZielFürNummerInformationRequest);
                         if(success)
                         {
                             MassTestMeasure massTestMeasure = new MassTestMeasure();
                             massTestMeasure.CountOfInformations = await this._context.NummerInformation.CountAsync();
                             massTestMeasure.Start = DateTime.Now;
-                            NummerInformation nummerInformation = await HoleNummerInformationAsync(nummerDefinition, erstelleNummerInformation);
-                            if(nummerInformation != null && nummerInformation.NummerInformationZiel.ToString() == setzeZielFürNummerInformation.Ziel.ToString())
+                            NummerInformation nummerInformation = await HoleNummerInformationAsync(nummerDefinition, erstelleNummerInformationRequest);
+                            if(nummerInformation != null && nummerInformation.NummerInformationZiel.ToString() == setzeZielFürNummerInformationRequest.Ziel.ToString())
                             {
                                 massTestMeasure.End = DateTime.Now;
                                 massTestMeasure.Milliseconds = (massTestMeasure.End - massTestMeasure.Start).TotalMilliseconds;
@@ -81,7 +81,7 @@ namespace TestConsole
                     }
                 }
             }
-            massTestResult.CountOfErstelleNummerInformationen = ErstelleNummerInformationen.Count;
+            massTestResult.CountOfErstelleNummerInformationen = erstelleNummerInformationRequests.Count;
 
 
             return massTestResult;
@@ -100,7 +100,7 @@ namespace TestConsole
             nummerDefinition.NummerDefinitionBezeichnung = Guid.NewGuid().ToString();
             nummerDefinition.NummerDefinitionQuelleBezeichnung = Guid.NewGuid().ToString();
             nummerDefinition.NummerDefinitionZielBezeichnung = Guid.NewGuid().ToString();
-            nummerDefinition.NummerDefinitionZielDatentypId = (long)Random_Helper.GetLong((long)Datentyp.String, (long)Datentyp.Guid);
+            nummerDefinition.NummerDefinitionZielDatentypId = (long)Random_Helper.GetLong((long)Datentypwerte.String, (long)Datentypwerte.Guid);
 
             ICollection<NummerDefinitionQuelle> nummerDefinitionQuellen = new List<NummerDefinitionQuelle>();
             long length = Random_Helper.GetLong(2L, 100L);
@@ -116,16 +116,16 @@ namespace TestConsole
 
                 nummerDefinitionQuelle.NummerDefinitionQuelleBezeichnung = quelleBezeichnung;
                 quellenBezeichnungen.Add(quelleBezeichnung);
-                nummerDefinitionQuelle.NummerDefinitionQuelleDatentypId = (long)Random_Helper.GetLong((long)Datentyp.String, (long)Datentyp.Guid);
+                nummerDefinitionQuelle.NummerDefinitionQuelleDatentypId = (long)Random_Helper.GetLong((long)Datentypwerte.String, (long)Datentypwerte.Guid);
                 nummerDefinition.NummerDefinitionQuellen.Add(nummerDefinitionQuelle);
             }
 
             return nummerDefinition;
 
         }
-        private static async Task<ErstellteNummerDefinition> ErstelleNummerDefinitionAsync(NummerDefinition nummerDefinition)
+        private static async Task<ErstellteNummerDefinitionResponse> ErstelleNummerDefinitionAsync(NummerDefinition nummerDefinition)
         {
-            ErstellteNummerDefinition erstellteNummerDefinition = null;
+            ErstellteNummerDefinitionResponse ErstellteNummerDefinitionResponse = null;
 
                 using (var httpClient = new HttpClient())
                 {
@@ -135,33 +135,33 @@ namespace TestConsole
                         if (response.IsSuccessStatusCode)
                         {
                             string apiResponse = await response.Content.ReadAsStringAsync();
-                            erstellteNummerDefinition = JsonConvert.DeserializeObject<ErstellteNummerDefinition>(apiResponse);
+                            ErstellteNummerDefinitionResponse = JsonConvert.DeserializeObject<ErstellteNummerDefinitionResponse>(apiResponse);
                         }
                     }
                 }
-            return erstellteNummerDefinition;
+            return ErstellteNummerDefinitionResponse;
         }
-        private static ErstelleNummerInformation CreateRandomErstelleNummerInformation(NummerDefinition nummerDefinition)
+        private static ErstelleNummerInformationRequest CreateRandomErstelleNummerInformation(NummerDefinition nummerDefinition)
         {
-            ErstelleNummerInformation erstelleNummerInformation = new ErstelleNummerInformation();
+            ErstelleNummerInformationRequest erstelleNummerInformationRequest = new ErstelleNummerInformationRequest();
             if (nummerDefinition != null)
             {
-                erstelleNummerInformation.Nummer_definition_id = nummerDefinition.ID;
+                erstelleNummerInformationRequest.Nummer_definition_id = nummerDefinition.ID;
                 int anzahlQuellen = nummerDefinition.NummerDefinitionQuellen.Count;
                 object[] quellen = new object[anzahlQuellen];
                 int index = 0;
                 foreach (var NummerDefinitionQuelle in nummerDefinition.NummerDefinitionQuellen)
                 {
                     object value = null;
-                    switch ((Datentyp)NummerDefinitionQuelle.NummerDefinitionQuelleDatentypId)
+                    switch ((Datentypwerte)NummerDefinitionQuelle.NummerDefinitionQuelleDatentypId)
                     {
-                        case Datentyp.String:
+                        case Datentypwerte.String:
                             value = Guid.NewGuid().ToString();
                             break;
-                        case Datentyp.Integer:
+                        case Datentypwerte.Integer:
                             value = Random_Helper.GetLong(0L, 100000L);
                             break;
-                        case Datentyp.Guid:
+                        case Datentypwerte.Guid:
                             value = Guid.NewGuid().ToString();
                             break;
                         default:
@@ -173,13 +173,13 @@ namespace TestConsole
 
 
                 }
-                erstelleNummerInformation.Quellen = quellen;
+                erstelleNummerInformationRequest.Quellen = quellen;
 
             }
-            return erstelleNummerInformation;
+            return erstelleNummerInformationRequest;
 
         }
-        private static async Task<Guid?> ErstelleNummerInformationAsync(ErstelleNummerInformation erstelleNummerInformation)
+        private static async Task<Guid?> ErstelleNummerInformationAsync(ErstelleNummerInformationRequest erstelleNummerInformationRequest)
         {
             Guid? guid = null;
 
@@ -187,7 +187,7 @@ namespace TestConsole
 
                 using (var httpClient = new HttpClient())
                 {
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(erstelleNummerInformation), Encoding.UTF8, "application/json");
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(erstelleNummerInformationRequest), Encoding.UTF8, "application/json");
                     using (HttpResponseMessage response = await httpClient.PostAsync(BaseAPIURL + "ErstelleNummerInformation/", content))
                     {
                         if (response.IsSuccessStatusCode)
@@ -200,42 +200,42 @@ namespace TestConsole
 
             return guid;
         }
-        private static SetzeZielFürNummerInformation ErstelleSetzeZielFürNummerInformation(Guid? guid, NummerDefinition nummerDefinition)
+        private static SetzeZielFürNummerInformationRequest ErstelleSetzeZielFürNummerInformation(Guid? guid, NummerDefinition nummerDefinition)
         {
-            SetzeZielFürNummerInformation setzeZielFürNummerInformation = null;
+            SetzeZielFürNummerInformationRequest setzeZielFürNummerInformationRequest = null;
             if (guid.HasValue && nummerDefinition != null)
             {
                 object ziel = null;
-                switch ((Datentyp)nummerDefinition.NummerDefinitionZielDatentypId)
+                switch ((Datentypwerte)nummerDefinition.NummerDefinitionZielDatentypId)
                 {
-                    case Datentyp.String:
+                    case Datentypwerte.String:
                         ziel = Guid.NewGuid().ToString();
                         break;
-                    case Datentyp.Integer:
+                    case Datentypwerte.Integer:
                         ziel = Random_Helper.GetLong(0L, 100000L);
                         break;
-                    case Datentyp.Guid:
+                    case Datentypwerte.Guid:
                         ziel = Guid.NewGuid();
                         break;
                     default:
                         break;
                 }
-                setzeZielFürNummerInformation = new SetzeZielFürNummerInformation();
-                setzeZielFürNummerInformation.NummerInformationGuid = guid.Value;
-                setzeZielFürNummerInformation.Ziel = ziel;
+                setzeZielFürNummerInformationRequest = new SetzeZielFürNummerInformationRequest();
+                setzeZielFürNummerInformationRequest.NummerInformationGuid = guid.Value;
+                setzeZielFürNummerInformationRequest.Ziel = ziel;
 
             }
 
-            return setzeZielFürNummerInformation;
+            return setzeZielFürNummerInformationRequest;
 
         }
 
-        private static async Task<bool> SetzeZielFürNummerInformationAsync(SetzeZielFürNummerInformation setzeZielFürNummerInformation)
+        private static async Task<bool> SetzeZielFürNummerInformationAsync(SetzeZielFürNummerInformationRequest setzeZielFürNummerInformationRequest)
         {
             bool success = false;
 
 
-            if (setzeZielFürNummerInformation != null)
+            if (setzeZielFürNummerInformationRequest != null)
             {
 
 
@@ -244,7 +244,7 @@ namespace TestConsole
                 using (var httpClient = new HttpClient())
                 {
 
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(setzeZielFürNummerInformation), Encoding.UTF8, "application/json");
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(setzeZielFürNummerInformationRequest), Encoding.UTF8, "application/json");
                     using (HttpResponseMessage response = await httpClient.PutAsync(BaseAPIURL + "SetzeZielFürNummerInformation/", content))
                     {
                         if (response.IsSuccessStatusCode)
@@ -264,16 +264,16 @@ namespace TestConsole
 
             return success;
         }
-        public async Task<NummerInformation> HoleNummerInformationAsync(NummerDefinition nummerDefinition, ErstelleNummerInformation erstelleNummerInformation)
+        public async Task<NummerInformation> HoleNummerInformationAsync(NummerDefinition nummerDefinition, ErstelleNummerInformationRequest erstelleNummerInformationRequest)
         {
             NummerInformation nummerInformation = null;
-            HoleNummerInformation holeNummerInformation = new HoleNummerInformation();
-            holeNummerInformation.Nummer_definition_id = nummerDefinition.ID;
-            holeNummerInformation.DurchQuellen = true;
-            holeNummerInformation.Quellen = erstelleNummerInformation.Quellen;
+            HoleNummerInformationRequest holeNummerInformationRequest = new HoleNummerInformationRequest();
+            holeNummerInformationRequest.Nummer_definition_id = nummerDefinition.ID;
+            holeNummerInformationRequest.DurchQuellen = true;
+            holeNummerInformationRequest.Quellen = erstelleNummerInformationRequest.Quellen;
             using (var httpClient = new HttpClient())
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(holeNummerInformation), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(holeNummerInformationRequest), Encoding.UTF8, "application/json");
                 using (HttpResponseMessage response = await httpClient.PostAsync(BaseAPIURL + "HoleNummerInformation/", content))
                 {
                     if (response.IsSuccessStatusCode)
