@@ -1,6 +1,7 @@
 namespace API
 {
     using Common.Models;
+    using Data.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -25,6 +26,7 @@ namespace API
             //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             // );
             services.AddDbContext<NumberserviceContext>();
+            services.AddDbContext<NummernserviceContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

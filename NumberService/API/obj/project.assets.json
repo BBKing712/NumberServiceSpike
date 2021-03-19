@@ -2768,6 +2768,19 @@
         "runtime": {
           "bin/placeholder/Common.dll": {}
         }
+      },
+      "Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.11"
+        },
+        "compile": {
+          "bin/placeholder/Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Data.dll": {}
+        }
       }
     }
   },
@@ -8843,11 +8856,17 @@
       "type": "project",
       "path": "../Common/Common.csproj",
       "msbuildProject": "../Common/Common.csproj"
+    },
+    "Data/1.0.0": {
+      "type": "project",
+      "path": "../Data/Data.csproj",
+      "msbuildProject": "../Data/Data.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Common >= 1.0.0",
+      "Data >= 1.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.11",
       "Microsoft.EntityFrameworkCore.Sqlite >= 3.1.11",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.11",
@@ -8891,6 +8910,9 @@
           "projectReferences": {
             "C:\\Users\\b.korn\\Desktop\\My\\Nummernservice\\NumberServiceSpike\\NumberService\\Common\\Common.csproj": {
               "projectPath": "C:\\Users\\b.korn\\Desktop\\My\\Nummernservice\\NumberServiceSpike\\NumberService\\Common\\Common.csproj"
+            },
+            "C:\\Users\\b.korn\\Desktop\\My\\Nummernservice\\NumberServiceSpike\\NumberService\\Data\\Data.csproj": {
+              "projectPath": "C:\\Users\\b.korn\\Desktop\\My\\Nummernservice\\NumberServiceSpike\\NumberService\\Data\\Data.csproj"
             }
           }
         }

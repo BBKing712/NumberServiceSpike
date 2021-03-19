@@ -3,6 +3,7 @@ C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Commo
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Common\bin\Debug\netcoreapp3.1\Common.runtimeconfig.dev.json
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Common\bin\Debug\netcoreapp3.1\Common.dll
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Common\bin\Debug\netcoreapp3.1\Common.pdb
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Common\obj\Debug\netcoreapp3.1\Common.csprojAssemblyReference.cache
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
