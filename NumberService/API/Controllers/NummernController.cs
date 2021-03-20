@@ -11,7 +11,6 @@
     using Common.Models;
     using Common.Requests;
     using Common.Responses;
-    using Data.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
@@ -20,12 +19,10 @@
     public class NummernController : ControllerBase
     {
         private readonly NumberserviceContext _context1;
-        private readonly NummernserviceContext _context2;
 
-        public NummernController(NumberserviceContext context1, NummernserviceContext context2)
+        public NummernController(NumberserviceContext context1)
         {
             this._context1 = context1;
-            this._context2 = context2;
         }
 
         // GET: api/Nummern/HoleDatentypen
