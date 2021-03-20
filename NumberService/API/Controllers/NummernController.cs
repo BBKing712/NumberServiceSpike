@@ -30,7 +30,7 @@
 
         // GET: api/Nummern/HoleDatentypen
         [HttpGet("HoleDatentypen")]
-        public async Task<ActionResult<IEnumerable<Datentyp>>> HoleDatentypen()
+        public async Task<ActionResult<IEnumerable<Common.Models.Datentyp>>> HoleDatentypen()
         {
             return await this._context1.Datentyp.ToListAsync();
         }

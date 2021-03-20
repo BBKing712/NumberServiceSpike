@@ -1,13 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
+﻿
 
 namespace Data.Models
 {
+    using System;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata;
     public partial class NummernserviceContext : DbContext
     {
         public NummernserviceContext()
@@ -19,10 +16,10 @@ namespace Data.Models
         {
         }
 
-        public virtual DbSet<Datentypen> Datentypen { get; set; }
-        public virtual DbSet<Nummerdefinitionen> Nummerdefinitionen { get; set; }
-        public virtual DbSet<Nummerdefinitionquellen> Nummerdefinitionquellen { get; set; }
-        public virtual DbSet<Nummerinformationen> Nummerinformationen { get; set; }
+        public virtual DbSet<Datentyp> Datentypen { get; set; }
+        public virtual DbSet<Nummerdefinition> Nummerdefinitionen { get; set; }
+        public virtual DbSet<Nummerdefinitionquelle> Nummerdefinitionquellen { get; set; }
+        public virtual DbSet<Nummerinformation> Nummerinformationen { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,7 +32,7 @@ namespace Data.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Datentypen>(entity =>
+            modelBuilder.Entity<Datentyp>(entity =>
             {
                 entity.HasIndex(e => e.Bezeichnung)
                     .HasName("UQ_Datentypen_Bezeichnung")
@@ -56,7 +53,7 @@ namespace Data.Models
                     .HasDefaultValueSql("(getutcdate())");
             });
 
-            modelBuilder.Entity<Nummerdefinitionen>(entity =>
+            modelBuilder.Entity<Nummerdefinition>(entity =>
             {
                 entity.HasIndex(e => e.Bezeichnung)
                     .HasName("UQ_Nummerdefinitionen_Bezeichnung")
@@ -99,7 +96,7 @@ namespace Data.Models
                     .HasConstraintName("FK_Nummerdefinitionen__Datentypen_ID");
             });
 
-            modelBuilder.Entity<Nummerdefinitionquellen>(entity =>
+            modelBuilder.Entity<Nummerdefinitionquelle>(entity =>
             {
                 entity.HasIndex(e => new { e.NummerdefinitionenId, e.Bezeichnung })
                     .HasName("UQC_Nummerdefinitionquellen_NummerdefinitionenID_Bezeichnung")
@@ -140,7 +137,7 @@ namespace Data.Models
                     .HasConstraintName("FK_Nummerdefinitionquellen_Nummerdefinitionen_ID");
             });
 
-            modelBuilder.Entity<Nummerinformationen>(entity =>
+            modelBuilder.Entity<Nummerinformation>(entity =>
             {
                 entity.HasIndex(e => e.Guid)
                     .HasName("UQ_Nummerinformationen_Guid")
