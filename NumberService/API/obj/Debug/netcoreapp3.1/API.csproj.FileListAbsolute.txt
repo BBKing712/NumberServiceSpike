@@ -142,9 +142,7 @@ C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\b
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\bin\Debug\netcoreapp3.1\Common.dll
-C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\bin\Debug\netcoreapp3.1\Data.dll
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\bin\Debug\netcoreapp3.1\Common.pdb
-C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\bin\Debug\netcoreapp3.1\Data.pdb
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\obj\Debug\netcoreapp3.1\API.csprojAssemblyReference.cache
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\obj\Debug\netcoreapp3.1\API.AssemblyInfoInputs.cache
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\obj\Debug\netcoreapp3.1\API.AssemblyInfo.cs
@@ -158,3 +156,5 @@ C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\o
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\obj\Debug\netcoreapp3.1\API.dll
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\obj\Debug\netcoreapp3.1\API.pdb
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\obj\Debug\netcoreapp3.1\API.genruntimeconfig.cache
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\bin\Debug\netcoreapp3.1\Data.dll
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\API\bin\Debug\netcoreapp3.1\Data.pdb
