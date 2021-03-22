@@ -1,6 +1,5 @@
 namespace API
 {
-    using Common.Models;
     using Data.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -25,7 +24,6 @@ namespace API
             // services.AddControllers().AddNewtonsoftJson(options =>
             //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             // );
-            services.AddDbContext<NumberserviceContext>();
             services.AddDbContext<NummernserviceContext>();
         }
 
