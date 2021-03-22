@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Common.Models;
+    using Data.Models;
 
     public static class NumberInformationJSONGenerator
     {
@@ -40,11 +40,11 @@
             StringBuilder json = new StringBuilder();
             json.Append("{");
             int index = 0;
-            foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.NummerDefinitionQuellePos))
+            foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.Position))
             {
                 object quelle = quellen[index];
                 string quelleAlsString = string.Empty;
-                switch (item.NummerDefinitionQuelleDatentypId)
+                switch (item.DatentypenId)
                 {
                     case 1:
                         // String
@@ -63,7 +63,7 @@
                         break;
                 }
 
-                json.Append(Quote + item.NummerDefinitionQuelleBezeichnung + Quote + ": " + quelleAlsString + ", ");
+                json.Append(Quote + item.Bezeichnung + Quote + ": " + quelleAlsString + ", ");
                 index++;
             }
 

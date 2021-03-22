@@ -1,5 +1,5 @@
 ﻿using Common.Helpers;
-using Common.Models;
+using Data.Models;
 using Common.Requests;
 using Common.Responses;
 using Newtonsoft.Json;
@@ -15,11 +15,11 @@ namespace TestConsole
     public class MassTest
     {
         private const string BaseAPIURL = "http://localhost:51868/api/Nummern/";
-        private readonly NumberserviceContext _context;
+        private readonly NummernserviceContext _context;
 
         public MassTest()
         {
-            this._context = new NumberserviceContext();
+            this._context = new NummernserviceContext();
         }
 
         public  async Task<MassTestResult> RunAsync(long max)
@@ -35,8 +35,8 @@ namespace TestConsole
                 ErstellteNummerDefinitionResponse ErstellteNummerDefinitionResponse = await ErstelleNummerDefinitionAsync(nummerDefinition);
                 if (ErstellteNummerDefinitionResponse != null)
                 {
-                    nummerDefinition.NummerDefinitionGuid = ErstellteNummerDefinitionResponse.Guid;
-                    nummerDefinition.ID = ErstellteNummerDefinitionResponse.Id;
+                    nummerDefinition.Guid = ErstellteNummerDefinitionResponse.Guid;
+                    nummerDefinition.Id = ErstellteNummerDefinitionResponse.Id;
                     nummerDefinitionen.Add(nummerDefinition);
                 }
                 else
@@ -60,10 +60,10 @@ namespace TestConsole
                         if(success)
                         {
                             MassTestMeasure massTestMeasure = new MassTestMeasure();
-                            massTestMeasure.CountOfInformations = await this._context.NummerInformation.CountAsync();
+                            massTestMeasure.CountOfInformations = await this._context.Nummerinformationen.CountAsync();
                             massTestMeasure.Start = DateTime.Now;
                             NummerInformation nummerInformation = await HoleNummerInformationAsync(nummerDefinition, erstelleNummerInformationRequest);
-                            if(nummerInformation != null && nummerInformation.NummerInformationZiel.ToString() == setzeZielFürNummerInformationRequest.Ziel.ToString())
+                            if(nummerInformation != null && nummerInformation.Ziel.ToString() == setzeZielFürNummerInformationRequest.Ziel.ToString())
                             {
                                 massTestMeasure.End = DateTime.Now;
                                 massTestMeasure.Milliseconds = (massTestMeasure.End - massTestMeasure.Start).TotalMilliseconds;
@@ -97,10 +97,10 @@ namespace TestConsole
         private static NummerDefinition CreateRandomNummerDefinition()
         {
             NummerDefinition nummerDefinition = new NummerDefinition();
-            nummerDefinition.NummerDefinitionBezeichnung = Guid.NewGuid().ToString();
-            nummerDefinition.NummerDefinitionQuelleBezeichnung = Guid.NewGuid().ToString();
-            nummerDefinition.NummerDefinitionZielBezeichnung = Guid.NewGuid().ToString();
-            nummerDefinition.NummerDefinitionZielDatentypId = (long)Random_Helper.GetLong((long)Datentypwerte.String, (long)Datentypwerte.Guid);
+            nummerDefinition.Bezeichnung = Guid.NewGuid().ToString();
+            nummerDefinition.QuelleBezeichnung = Guid.NewGuid().ToString();
+            nummerDefinition.ZielBezeichnung = Guid.NewGuid().ToString();
+            nummerDefinition.ZielDatentypenId = (long)Random_Helper.GetLong((long)Datentypwerte.String, (long)Datentypwerte.Guid);
 
             ICollection<NummerDefinitionQuelle> nummerDefinitionQuellen = new List<NummerDefinitionQuelle>();
             long length = Random_Helper.GetLong(2L, 100L);
@@ -114,9 +114,9 @@ namespace TestConsole
                     quelleBezeichnung = Random_Helper.GetString(1, 20, false);
                 } while (quellenBezeichnungen.Contains(quelleBezeichnung));
 
-                nummerDefinitionQuelle.NummerDefinitionQuelleBezeichnung = quelleBezeichnung;
+                nummerDefinitionQuelle.Bezeichnung = quelleBezeichnung;
                 quellenBezeichnungen.Add(quelleBezeichnung);
-                nummerDefinitionQuelle.NummerDefinitionQuelleDatentypId = (long)Random_Helper.GetLong((long)Datentypwerte.String, (long)Datentypwerte.Guid);
+                nummerDefinitionQuelle.DatentypenId = (long)Random_Helper.GetLong((long)Datentypwerte.String, (long)Datentypwerte.Guid);
                 nummerDefinition.NummerDefinitionQuellen.Add(nummerDefinitionQuelle);
             }
 
@@ -146,14 +146,14 @@ namespace TestConsole
             ErstelleNummerInformationRequest erstelleNummerInformationRequest = new ErstelleNummerInformationRequest();
             if (nummerDefinition != null)
             {
-                erstelleNummerInformationRequest.Nummer_definition_id = nummerDefinition.ID;
+                erstelleNummerInformationRequest.Nummer_definition_id = nummerDefinition.Id;
                 int anzahlQuellen = nummerDefinition.NummerDefinitionQuellen.Count;
                 object[] quellen = new object[anzahlQuellen];
                 int index = 0;
                 foreach (var NummerDefinitionQuelle in nummerDefinition.NummerDefinitionQuellen)
                 {
                     object value = null;
-                    switch ((Datentypwerte)NummerDefinitionQuelle.NummerDefinitionQuelleDatentypId)
+                    switch ((Datentypwerte)NummerDefinitionQuelle.DatentypenId)
                     {
                         case Datentypwerte.String:
                             value = Guid.NewGuid().ToString();
@@ -206,7 +206,7 @@ namespace TestConsole
             if (guid.HasValue && nummerDefinition != null)
             {
                 object ziel = null;
-                switch ((Datentypwerte)nummerDefinition.NummerDefinitionZielDatentypId)
+                switch ((Datentypwerte)nummerDefinition.ZielDatentypenId)
                 {
                     case Datentypwerte.String:
                         ziel = Guid.NewGuid().ToString();
@@ -268,7 +268,7 @@ namespace TestConsole
         {
             NummerInformation nummerInformation = null;
             HoleNummerInformationRequest holeNummerInformationRequest = new HoleNummerInformationRequest();
-            holeNummerInformationRequest.Nummer_definition_id = nummerDefinition.ID;
+            holeNummerInformationRequest.Nummer_definition_id = nummerDefinition.Id;
             holeNummerInformationRequest.DurchQuellen = true;
             holeNummerInformationRequest.Quellen = erstelleNummerInformationRequest.Quellen;
             using (var httpClient = new HttpClient())

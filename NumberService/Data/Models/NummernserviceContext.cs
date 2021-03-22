@@ -17,9 +17,9 @@ namespace Data.Models
         }
 
         public virtual DbSet<Datentyp> Datentypen { get; set; }
-        public virtual DbSet<Nummerdefinition> Nummerdefinitionen { get; set; }
-        public virtual DbSet<Nummerdefinitionquelle> Nummerdefinitionquellen { get; set; }
-        public virtual DbSet<Nummerinformation> Nummerinformationen { get; set; }
+        public virtual DbSet<NummerDefinition> Nummerdefinitionen { get; set; }
+        public virtual DbSet<NummerDefinitionQuelle> Nummerdefinitionquellen { get; set; }
+        public virtual DbSet<NummerInformation> Nummerinformationen { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -53,7 +53,7 @@ namespace Data.Models
                     .HasDefaultValueSql("(getutcdate())");
             });
 
-            modelBuilder.Entity<Nummerdefinition>(entity =>
+            modelBuilder.Entity<NummerDefinition>(entity =>
             {
                 entity.HasIndex(e => e.Bezeichnung)
                     .HasName("UQ_Nummerdefinitionen_Bezeichnung")
@@ -89,14 +89,14 @@ namespace Data.Models
 
                 entity.Property(e => e.ZielDatentypenId).HasColumnName("ZielDatentypenID");
 
-                entity.HasOne(d => d.ZielDatentypen)
-                    .WithMany(p => p.Nummerdefinitionen)
+                entity.HasOne(d => d.ZielDatentyp)
+                    .WithMany(p => p.NummerDefinitionen)
                     .HasForeignKey(d => d.ZielDatentypenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Nummerdefinitionen__Datentypen_ID");
             });
 
-            modelBuilder.Entity<Nummerdefinitionquelle>(entity =>
+            modelBuilder.Entity<NummerDefinitionQuelle>(entity =>
             {
                 entity.HasIndex(e => new { e.NummerdefinitionenId, e.Bezeichnung })
                     .HasName("UQC_Nummerdefinitionquellen_NummerdefinitionenID_Bezeichnung")
@@ -124,20 +124,20 @@ namespace Data.Models
 
                 entity.Property(e => e.NummerdefinitionenId).HasColumnName("NummerdefinitionenID");
 
-                entity.HasOne(d => d.Datentypen)
-                    .WithMany(p => p.Nummerdefinitionquellen)
+                entity.HasOne(d => d.Datentyp)
+                    .WithMany(p => p.NummerDefinitionQuellen)
                     .HasForeignKey(d => d.DatentypenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Nummerdefinitionquellen_Datentypen_ID");
 
-                entity.HasOne(d => d.Nummerdefinitionen)
-                    .WithMany(p => p.Nummerdefinitionquellen)
+                entity.HasOne(d => d.NummerDefinition)
+                    .WithMany(p => p.NummerDefinitionQuellen)
                     .HasForeignKey(d => d.NummerdefinitionenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Nummerdefinitionquellen_Nummerdefinitionen_ID");
             });
 
-            modelBuilder.Entity<Nummerinformation>(entity =>
+            modelBuilder.Entity<NummerInformation>(entity =>
             {
                 entity.HasIndex(e => e.Guid)
                     .HasName("UQ_Nummerinformationen_Guid")
@@ -159,8 +159,8 @@ namespace Data.Models
 
                 entity.Property(e => e.Quelle).IsRequired();
 
-                entity.HasOne(d => d.Nummerdefinitionen)
-                    .WithMany(p => p.Nummerinformationen)
+                entity.HasOne(d => d.NummerDefinition)
+                    .WithMany(p => p.NummerInformationen)
                     .HasForeignKey(d => d.NummerdefinitionenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Nummerinformationen_NummerDefinitionen_ID");

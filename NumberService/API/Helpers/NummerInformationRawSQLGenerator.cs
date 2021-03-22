@@ -5,7 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
-    using Common.Models;
+    using Data.Models;
 
     public static class NummerInformationRawSQLGenerator
     {
@@ -43,11 +43,11 @@
             rAWsql.Append("Select * from nummer_information");
             rAWsql.Append(" Where nummer_definition_id = " + nummer_definition_id.ToString());
             int index = 0;
-            foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.NummerDefinitionQuellePos))
+            foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.Position))
             {
                 object quelle = quellen[index];
                 string quelleAlsString = string.Empty;
-                switch (item.NummerDefinitionQuelleDatentypId)
+                switch (item.DatentypenId)
                 {
                     case 1:
                         // String
@@ -67,7 +67,7 @@
                 }
 
                 // JSON_VALUE(Nnmmer_information_quelle, '$.Wert1') = 'abc';
-                rAWsql.Append(" And JSON_VALUE(Nnmmer_information_quelle, '$." + item.NummerDefinitionQuelleBezeichnung + "') = " + quelleAlsString);
+                rAWsql.Append(" And JSON_VALUE(Nnmmer_information_quelle, '$." + item.Bezeichnung + "') = " + quelleAlsString);
                 index++;
             }
 

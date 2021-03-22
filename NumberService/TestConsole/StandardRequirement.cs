@@ -1,5 +1,4 @@
-﻿using Common.Models;
-using Common.Responses;
+﻿using Common.Responses;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Common.Requests;
+using Data.Models;
 
 namespace TestConsole
 {
@@ -111,9 +111,9 @@ namespace TestConsole
                             if (existiert)
                             {
                                 StandardRequirement.Instance.ErstellteNummerDefinitionResponse = new ErstellteNummerDefinitionResponse();
-                                StandardRequirement.Instance.ErstellteNummerDefinitionResponse.Id = StandardRequirement.Instance.NummerDefinition.ID;
-                                StandardRequirement.Instance.ErstellteNummerDefinitionResponse.Guid = StandardRequirement.Instance.NummerDefinition.NummerDefinitionGuid;
-                                StandardRequirement.Instance.ErstellteNummerDefinitionResponse.Bezeichnung = StandardRequirement.Instance.NummerDefinition.NummerDefinitionBezeichnung;
+                                StandardRequirement.Instance.ErstellteNummerDefinitionResponse.Id = StandardRequirement.Instance.NummerDefinition.Id;
+                                StandardRequirement.Instance.ErstellteNummerDefinitionResponse.Guid = StandardRequirement.Instance.NummerDefinition.Guid;
+                                StandardRequirement.Instance.ErstellteNummerDefinitionResponse.Bezeichnung = StandardRequirement.Instance.NummerDefinition.Bezeichnung;
                                 StandardRequirement.Instance.ErstellteNummerDefinitionResponse.NummerDefinitionQuellen = StandardRequirement.Instance.NummerDefinition.NummerDefinitionQuellen.ToList();
 
                             }
@@ -154,15 +154,15 @@ namespace TestConsole
         public static NummerDefinition LieferNummerDefinition()
         {
             NummerDefinition nummerDefinition = new NummerDefinition();
-            nummerDefinition.NummerDefinitionBezeichnung = NumberDefinitionBezeichnung.DEUWOAuftragsnummerZuGEMASAuftragsnummer.ToString();
-            nummerDefinition.NummerDefinitionQuelleBezeichnung = "DEUWOAuftragsnummer";
-            nummerDefinition.NummerDefinitionZielBezeichnung = "GEMASAuftragsnummer";
-            nummerDefinition.NummerDefinitionZielDatentypId = (long)Datentypwerte.Integer;
+            nummerDefinition.Bezeichnung = NumberDefinitionBezeichnung.DEUWOAuftragsnummerZuGEMASAuftragsnummer.ToString();
+            nummerDefinition.QuelleBezeichnung = "DEUWOAuftragsnummer";
+            nummerDefinition.ZielBezeichnung = "GEMASAuftragsnummer";
+            nummerDefinition.ZielDatentypenId = (long)Datentypwerte.Integer;
 
             //ICollection<NummerDefinitionQuelle> nummerDefinitionQuellen = new List<NummerDefinitionQuelle>();
             NummerDefinitionQuelle nummerDefinitionQuelle = new NummerDefinitionQuelle();
-            nummerDefinitionQuelle.NummerDefinitionQuelleBezeichnung = "Auftragsnummer";
-            nummerDefinitionQuelle.NummerDefinitionQuelleDatentypId = (long)Datentypwerte.Integer;
+            nummerDefinitionQuelle.Bezeichnung = "Auftragsnummer";
+            nummerDefinitionQuelle.DatentypenId = (long)Datentypwerte.Integer;
             nummerDefinition.NummerDefinitionQuellen.Add(nummerDefinitionQuelle);
 
 
@@ -231,7 +231,7 @@ namespace TestConsole
                         {
                             string apiResponse = await response.Content.ReadAsStringAsync();
                             NummerInformation nummerInformation = JsonConvert.DeserializeObject<NummerInformation>(apiResponse);
-                            if(nummerInformation != null && nummerInformation.NummerInformationZiel == gemasauftragsnummer.ToString())
+                            if(nummerInformation != null && nummerInformation.Ziel == gemasauftragsnummer.ToString())
                             {
                                 StandardRequirement.Instance.GemasAuftragsnummer = gemasauftragsnummer;
                                 success = true;
@@ -260,7 +260,7 @@ namespace TestConsole
         {
             NummerInformation nummerInformation = null;
             HoleNummerInformationRequest holeNummerInformationRequest = new HoleNummerInformationRequest();
-            holeNummerInformationRequest.Nummer_definition_id = StandardRequirement.Instance.NummerDefinition.ID;
+            holeNummerInformationRequest.Nummer_definition_id = StandardRequirement.Instance.NummerDefinition.Id;
             if (durchQuellen)
             {
                 holeNummerInformationRequest.DurchQuellen = true;

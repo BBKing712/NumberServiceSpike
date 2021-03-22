@@ -8,7 +8,6 @@
     using System.Threading.Tasks;
     using API.Helpers;
     using Common.Helpers;
-    using Common.Models;
     using Common.Requests;
     using Common.Responses;
     using Data.Models;
@@ -19,34 +18,32 @@
     [ApiController]
     public class NummernController : ControllerBase
     {
-        private readonly NumberserviceContext _context1;
-        private readonly NummernserviceContext _context2;
+        private readonly NummernserviceContext _context;
 
-        public NummernController(NumberserviceContext context1, NummernserviceContext context2)
+        public NummernController(NummernserviceContext context)
         {
-            this._context1 = context1;
-            this._context2 = context2;
+            this._context = context;
         }
 
         // GET: api/Nummern/HoleDatentypen
         [HttpGet("HoleDatentypen")]
-        public async Task<ActionResult<IEnumerable<Common.Models.Datentyp>>> HoleDatentypen()
+        public async Task<ActionResult<IEnumerable<Data.Models.Datentyp>>> HoleDatentypen()
         {
-            return await this._context1.Datentyp.ToListAsync();
+            return await this._context.Datentypen.ToListAsync();
         }
 
         // GET: api/Nummern/HoleNummerDefinitionen
         [HttpGet("HoleNummerDefinitionen")]
-        public async Task<ActionResult<IEnumerable<NummerDefinition>>> HoleNummerDefinitionen()
+        public async Task<ActionResult<IEnumerable<Data.Models.NummerDefinition>>> HoleNummerDefinitionen()
         {
 
-            return await this._context1.NummerDefinition.Include("NummerDefinitionQuellen").ToListAsync();
+            return await this._context.Nummerdefinitionen.Include("NummerDefinitionQuellen").ToListAsync();
         }
         // GET: api/HoleNummerDefinition/5
         [HttpGet("HoleNummerDefinition/{id}")]
-        public async Task<ActionResult<NummerDefinition>> HoleNummerDefinition(long id)
+        public async Task<ActionResult<Data.Models.NummerDefinition>> HoleNummerDefinition(long id)
         {
-            var nummerDefinition = await _context1.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => e.ID == id).FirstOrDefaultAsync();
+            var nummerDefinition = await _context.Nummerdefinitionen.Include("NummerDefinitionQuellen").Where(e => e.Id == id).FirstOrDefaultAsync();
 
             if (nummerDefinition == null)
             {
@@ -57,9 +54,9 @@
         }
         // GET: api/HoleNummerDefinitionUeberBezeichnung/xyz
         [HttpGet("HoleNummerDefinitionUeberBezeichnung/{bezeichnung}")]
-        public async Task<ActionResult<NummerDefinition>> HoleNummerDefinitionUeberBezeichnung(string bezeichnung)
+        public async Task<ActionResult<Data.Models.NummerDefinition>> HoleNummerDefinitionUeberBezeichnung(string bezeichnung)
         {
-            NummerDefinition nummerDefinition = await this._context1.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.NummerDefinitionBezeichnung == bezeichnung)).FirstOrDefaultAsync();
+            Data.Models.NummerDefinition nummerDefinition = await this._context.Nummerdefinitionen.Include("NummerDefinitionQuellen").Where(e => (e.Bezeichnung == bezeichnung)).FirstOrDefaultAsync();
 
 
             if (nummerDefinition == null)
@@ -74,15 +71,15 @@
 
         // POst: api/Nummern/ErstelleNummerDefinition
         [HttpPost("ErstelleNummerDefinition")]
-        public async Task<ActionResult<ErstellteNummerDefinitionResponse>> ErstelleNummerDefinition(NummerDefinition nummerDefinition)
+        public async Task<ActionResult<ErstellteNummerDefinitionResponse>> ErstelleNummerDefinition(Data.Models.NummerDefinition nummerDefinition)
         {
-            NummerDefinition foundNummerDefinition = this._context1.NummerDefinition.Where(e => (e.NummerDefinitionBezeichnung == nummerDefinition.NummerDefinitionBezeichnung)).FirstOrDefault();
+            Data.Models.NummerDefinition foundNummerDefinition = this._context.Nummerdefinitionen.Where(e => (e.Bezeichnung == nummerDefinition.Bezeichnung)).FirstOrDefault();
             if (foundNummerDefinition != null)
             {
                 throw new Exception("der Wert für NummerDefinitionBezeichnung muss eindeutig sein.");
             }
 
-            var invalidgroups = nummerDefinition.NummerDefinitionQuellen.GroupBy(e => e.NummerDefinitionQuelleBezeichnung).Select(group => new
+            var invalidgroups = nummerDefinition.NummerDefinitionQuellen.GroupBy(e => e.Bezeichnung).Select(group => new
             {
                 Key = group.Key,
                 Count = group.Count(),
@@ -93,29 +90,29 @@
             }
             // TODO BK Bezeichnungen der Quellen müssen gültige JSON-Bezeichnungen sein(nicht mit Zahlen beginnen.)
 
-            List<NummerDefinitionQuelle> nummerDefinitionQuelles = nummerDefinition.NummerDefinitionQuellen.ToList();
+            List<Data.Models.NummerDefinitionQuelle> nummerDefinitionQuelles = nummerDefinition.NummerDefinitionQuellen.ToList();
             nummerDefinition.NummerDefinitionQuellen.Clear();
             nummerDefinition.NummerDefinitionQuellen = null;
             nummerDefinition.NummerInformationen.Clear();
             nummerDefinition.NummerInformationen = null;
 
-            this._context1.NummerDefinition.Add(nummerDefinition);
-            await this._context1.SaveChangesAsync();
+            this._context.Nummerdefinitionen.Add(nummerDefinition);
+            await this._context.SaveChangesAsync();
 
             int pos = 1;
             foreach (var nummerDefinitionQuelle in nummerDefinitionQuelles)
             {
-                nummerDefinitionQuelle.NummerDefinitionQuellePos = pos;
+                nummerDefinitionQuelle.Position = pos;
                 pos++;
-                this._context1.NummerDefinitionQuelle.Add(nummerDefinitionQuelle);
-                nummerDefinitionQuelle.NummerDefinitionId = nummerDefinition.ID;
+                this._context.Nummerdefinitionquellen.Add(nummerDefinitionQuelle);
+                nummerDefinitionQuelle.NummerdefinitionenId = nummerDefinition.Id;
             }
 
-            await this._context1.SaveChangesAsync();
+            await this._context.SaveChangesAsync();
             ErstellteNummerDefinitionResponse ErstellteNummerDefinitionResponse = new ErstellteNummerDefinitionResponse();
-            ErstellteNummerDefinitionResponse.Id = nummerDefinition.ID;
-            ErstellteNummerDefinitionResponse.Guid = nummerDefinition.NummerDefinitionGuid;
-            ErstellteNummerDefinitionResponse.Bezeichnung = nummerDefinition.NummerDefinitionBezeichnung;
+            ErstellteNummerDefinitionResponse.Id = nummerDefinition.Id;
+            ErstellteNummerDefinitionResponse.Guid = nummerDefinition.Guid;
+            ErstellteNummerDefinitionResponse.Bezeichnung = nummerDefinition.Bezeichnung;
             ErstellteNummerDefinitionResponse.NummerDefinitionQuellen = nummerDefinition.NummerDefinitionQuellen.ToList();
             return ErstellteNummerDefinitionResponse;
         }
@@ -126,7 +123,7 @@
         {
             Guid? guid = null;
 
-            NummerDefinition foundNummerDefinition = this._context1.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.ID == erstelleNummerInformationRequest.Nummer_definition_id)).FirstOrDefault();
+            NummerDefinition foundNummerDefinition = this._context.Nummerdefinitionen.Include("NummerDefinitionQuellen").Where(e => (e.Id == erstelleNummerInformationRequest.Nummer_definition_id)).FirstOrDefault();
             if (foundNummerDefinition == null)
             {
                 throw new Exception(string.Format("für die nummer_definition_id = '{0}' existiert keine gültig Nummerdefinition.", erstelleNummerInformationRequest.Nummer_definition_id));
@@ -145,16 +142,16 @@
             //}
             else
             {
-                NummerInformation nummerInformation = new NummerInformation();
-                nummerInformation.NummerDefinitionId = erstelleNummerInformationRequest.Nummer_definition_id;
+                Data.Models.NummerInformation nummerInformation = new Data.Models.NummerInformation();
+                nummerInformation.Id = erstelleNummerInformationRequest.Nummer_definition_id;
                 string jsonQuellen = NumberInformationJSONGenerator.GenerateJSON(foundNummerDefinition.NummerDefinitionQuellen, erstelleNummerInformationRequest.Quellen);
-                nummerInformation.NnmmerInformationQuelle = jsonQuellen;
-                nummerInformation.NummerInformationZiel = erstelleNummerInformationRequest.Ziel != null ? erstelleNummerInformationRequest.Ziel.ToString() : null;
+                nummerInformation.Quelle = jsonQuellen;
+                nummerInformation.Ziel = erstelleNummerInformationRequest.Ziel != null ? erstelleNummerInformationRequest.Ziel.ToString() : null;
 
-                this._context1.NummerInformation.Add(nummerInformation);
-                await this._context1.SaveChangesAsync();
+                this._context.Nummerinformationen.Add(nummerInformation);
+                await this._context.SaveChangesAsync();
 
-                guid = nummerInformation.NummerInformationGuid;
+                guid = nummerInformation.Guid;
             }
 
             return guid;
@@ -162,9 +159,9 @@
 
         // GET: api/Nummern//HoleNummerInformation/5
         [HttpGet("HoleNummerInformation/{id}")]
-        public async Task<ActionResult<NummerInformation>> HoleNummerInformation(long id)
+        public async Task<ActionResult<Data.Models.NummerInformation>> HoleNummerInformation(long id)
         {
-            var nummerInformation = await this._context1.NummerInformation.FindAsync(id);
+            var nummerInformation = await this._context.Nummerinformationen.FindAsync(id);
 
             if (nummerInformation == null)
             {
@@ -176,11 +173,11 @@
 
         // POst: api/Nummern/HoleNummerInformation
         [HttpPost("HoleNummerInformation")]
-        public async Task<ActionResult<NummerInformation>> HoleNummerInformation(HoleNummerInformationRequest holeNummerInformationRequest)
+        public async Task<ActionResult<Data.Models.NummerInformation>> HoleNummerInformation(HoleNummerInformationRequest holeNummerInformationRequest)
         {
-            NummerInformation nummerInformation = null;
+            Data.Models.NummerInformation nummerInformation = null;
 
-            NummerDefinition foundNummerDefinition = this._context1.NummerDefinition.Include("NummerDefinitionQuellen").Where(e => (e.ID == holeNummerInformationRequest.Nummer_definition_id)).FirstOrDefault();
+            NummerDefinition foundNummerDefinition = this._context.Nummerdefinitionen.Include("NummerDefinitionQuellen").Where(e => (e.Id == holeNummerInformationRequest.Nummer_definition_id)).FirstOrDefault();
             if (foundNummerDefinition == null)
             {
                 throw new Exception(string.Format("für die nummer_definition_id = '{0}' existiert keine gültig Nummerdefinition.", holeNummerInformationRequest.Nummer_definition_id));
@@ -202,7 +199,7 @@
                 if(holeNummerInformationRequest.DurchQuellen)
                 {
                     string rawSQL = NummerInformationRawSQLGenerator.GenersateRawSQL(holeNummerInformationRequest.Nummer_definition_id, foundNummerDefinition.NummerDefinitionQuellen, holeNummerInformationRequest.Quellen);
-                    List<NummerInformation> nummerInformations = await this._context1.NummerInformation.FromSqlRaw(rawSQL).ToListAsync();
+                    List<NummerInformation> nummerInformations = await this._context.Nummerinformationen.FromSqlRaw(rawSQL).ToListAsync();
                     if (nummerInformations != null && nummerInformations.Count > 0)
                     {
                         nummerInformation = nummerInformations.FirstOrDefault();
@@ -215,7 +212,7 @@
                 else
                 {
                     string ziel = holeNummerInformationRequest.Ziel.ToString();
-                     nummerInformation = await this._context1.NummerInformation.Where(e => e.NummerDefinitionId == foundNummerDefinition.ID && e.NummerInformationZiel == ziel).FirstOrDefaultAsync();
+                     nummerInformation = await this._context.Nummerinformationen.Where(e => e.NummerdefinitionenId == foundNummerDefinition.Id && e.Ziel == ziel).FirstOrDefaultAsync();
 
                 }
                 if (nummerInformation != null)
@@ -231,9 +228,9 @@
         }
         // Put: api/Nummern/SetzeZielFürNummerInformation
         [HttpPut("SetzeZielFürNummerInformation")]
-        public async Task<ActionResult<NummerInformation>> SetzeZielFürNummerInformation(SetzeZielFürNummerInformationRequest setzeZielFürNummerInformationRequest)
+        public async Task<ActionResult<Data.Models.NummerInformation>> SetzeZielFürNummerInformation(SetzeZielFürNummerInformationRequest setzeZielFürNummerInformationRequest)
         {
-            NummerInformation nummerInformation = null;
+            Data.Models.NummerInformation nummerInformation = null;
 
             if (setzeZielFürNummerInformationRequest == null)
             {
@@ -253,7 +250,7 @@
             else
             {
                 Guid guid = (Guid)setzeZielFürNummerInformationRequest.NummerInformationGuid;
-                nummerInformation = await this._context1.NummerInformation.Where(e => (e.NummerInformationGuid != null && e.NummerInformationGuid.ToString() == guid.ToString())).FirstOrDefaultAsync();
+                nummerInformation = await this._context.Nummerinformationen.Where(e => (e.Guid != null && e.Guid.ToString() == guid.ToString())).FirstOrDefaultAsync();
 
                 if (nummerInformation == null)
                 {
@@ -263,11 +260,11 @@
                 else
                 {
                     string ziel = setzeZielFürNummerInformationRequest.Ziel.ToString();
-                        nummerInformation.NummerInformationZiel = ziel;
-                        _context1.Entry(nummerInformation).State = EntityState.Modified;
+                        nummerInformation.Ziel = ziel;
+                    _context.Entry(nummerInformation).State = EntityState.Modified;
                         try
                         {
-                            await this._context1.SaveChangesAsync();
+                            await this._context.SaveChangesAsync();
                             return Ok(nummerInformation);
                         }
                         catch (DbUpdateConcurrencyException)
@@ -293,23 +290,23 @@
         {
             object ziel = null;
 
-            NummerInformation nummerInformation = await this._context1.NummerInformation.Where(e => (e.NummerInformationGuid == guid)).FirstOrDefaultAsync();
+            NummerInformation nummerInformation = await this._context.Nummerinformationen.Where(e => (e.Guid == guid)).FirstOrDefaultAsync();
 
 
-            if (nummerInformation != null && nummerInformation.NummerInformationZiel != null)
+            if (nummerInformation != null && nummerInformation.Ziel != null)
             {
-                NummerDefinition nummerDefinition = await this._context1.NummerDefinition.Where(e => e.ID == nummerInformation.NummerDefinitionId).FirstOrDefaultAsync();
+                NummerDefinition nummerDefinition = await this._context.Nummerdefinitionen.Where(e => e.Id == nummerInformation.NummerdefinitionenId).FirstOrDefaultAsync();
                 if(nummerDefinition != null)
                 {
-                    switch (nummerDefinition.NummerDefinitionZielDatentypId)
+                    switch (nummerDefinition.ZielDatentypenId)
                     {
                         case 1:
 
-                            ziel = nummerInformation.NummerInformationZiel;
+                            ziel = nummerInformation.Ziel;
                             break;
                         case 2:
                             Int32 output2 = 0;
-                            if (Int32.TryParse(nummerInformation.NummerInformationZiel, out output2))
+                            if (Int32.TryParse(nummerInformation.Ziel, out output2))
                             {
                                 ziel = output2;
                             }
@@ -317,7 +314,7 @@
                             break;
                         case 3:
                             Guid output3 = Guid.NewGuid();
-                            if (Guid.TryParse(nummerInformation.NummerInformationZiel, out output3))
+                            if (Guid.TryParse(nummerInformation.Ziel, out output3))
                             {
                                 ziel = output3;
                             }
