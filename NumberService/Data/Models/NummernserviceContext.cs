@@ -5,6 +5,7 @@ namespace Data.Models
     using System;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata;
+
     public partial class NummernserviceContext : DbContext
     {
         public NummernserviceContext()
@@ -17,8 +18,11 @@ namespace Data.Models
         }
 
         public virtual DbSet<Datentyp> Datentypen { get; set; }
+
         public virtual DbSet<NummerDefinition> Nummerdefinitionen { get; set; }
+
         public virtual DbSet<NummerDefinitionQuelle> Nummerdefinitionquellen { get; set; }
+
         public virtual DbSet<NummerInformation> Nummerinformationen { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

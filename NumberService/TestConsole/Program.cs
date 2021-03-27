@@ -1,16 +1,17 @@
 ﻿using Common.Helpers;
-using Data.Models;
-using Common.Responses;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestConsole
 {
+    using Data.Models;
+    using Common.Responses;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
+
     //see
     //https://www.yogihosting.com/aspnet-core-consume-api/#readid
     class Program

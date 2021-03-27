@@ -161,7 +161,9 @@ C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestC
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\bin\Debug\netcoreapp3.1\Common.dll
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\bin\Debug\netcoreapp3.1\Data.dll
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\bin\Debug\netcoreapp3.1\Common.pdb
+C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\bin\Debug\netcoreapp3.1\Data.pdb
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\obj\Debug\netcoreapp3.1\TestConsole.csprojAssemblyReference.cache
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\obj\Debug\netcoreapp3.1\TestConsole.AssemblyInfoInputs.cache
 C:\Users\b.korn\Desktop\My\Nummernservice\NumberServiceSpike\NumberService\TestConsole\obj\Debug\netcoreapp3.1\TestConsole.AssemblyInfo.cs

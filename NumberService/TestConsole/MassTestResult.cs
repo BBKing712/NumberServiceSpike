@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace TestConsole
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public class MassTestResult
     {
     public MassTestResult()

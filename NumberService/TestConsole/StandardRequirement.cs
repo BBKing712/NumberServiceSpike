@@ -1,16 +1,17 @@
-﻿using Common.Responses;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Linq;
-using Common.Requests;
-using Data.Models;
-
+﻿
 namespace TestConsole
 {
+    using Common.Responses;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Linq;
+    using Common.Requests;
+    using Data.Models;
+
     public sealed class StandardRequirement
     {
         private const string BaseAPIURL = "http://localhost:51868/api/Nummern/";

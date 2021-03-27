@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace TestConsole
 {
 
-   public enum NumberDefinitionBezeichnung
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    public enum NumberDefinitionBezeichnung
     {
         None,
         DEUWOAuftragsnummerZuGEMASAuftragsnummer,

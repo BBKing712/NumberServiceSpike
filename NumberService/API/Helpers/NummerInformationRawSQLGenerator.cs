@@ -40,8 +40,8 @@
             }
 
             StringBuilder rAWsql = new StringBuilder();
-            rAWsql.Append("Select * from nummer_information");
-            rAWsql.Append(" Where nummer_definition_id = " + nummer_definition_id.ToString());
+            rAWsql.Append("Select * from Nummerinformationen");
+            rAWsql.Append(" Where NummerdefinitionenID = " + nummer_definition_id.ToString());
             int index = 0;
             foreach (var item in nummerDefinitionQuelles.OrderBy(e => e.Position))
             {
@@ -67,7 +67,7 @@
                 }
 
                 // JSON_VALUE(Nnmmer_information_quelle, '$.Wert1') = 'abc';
-                rAWsql.Append(" And JSON_VALUE(Nnmmer_information_quelle, '$." + item.Bezeichnung + "') = " + quelleAlsString);
+                rAWsql.Append(" And JSON_VALUE(Quelle, '$." + item.Bezeichnung + "') = " + quelleAlsString);
                 index++;
             }
 

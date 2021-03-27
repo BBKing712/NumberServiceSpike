@@ -143,7 +143,7 @@
             else
             {
                 Data.Models.NummerInformation nummerInformation = new Data.Models.NummerInformation();
-                nummerInformation.Id = erstelleNummerInformationRequest.Nummer_definition_id;
+                nummerInformation.NummerdefinitionenId = erstelleNummerInformationRequest.Nummer_definition_id;
                 string jsonQuellen = NumberInformationJSONGenerator.GenerateJSON(foundNummerDefinition.NummerDefinitionQuellen, erstelleNummerInformationRequest.Quellen);
                 nummerInformation.Quelle = jsonQuellen;
                 nummerInformation.Ziel = erstelleNummerInformationRequest.Ziel != null ? erstelleNummerInformationRequest.Ziel.ToString() : null;
