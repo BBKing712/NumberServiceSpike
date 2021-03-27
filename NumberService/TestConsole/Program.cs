@@ -1,5 +1,5 @@
 ﻿using Common.Helpers;
-using Common.Models;
+using Data.Models;
 using Common.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
